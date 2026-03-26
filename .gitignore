@@ -1,0 +1,29 @@
+# Godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Godot Mono (C#)
+data_*/
+mono_data_*/
+.temp_*/
+
+# Worktrees
+.worktrees/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build outputs
+build/
+bin/
+obj/
