@@ -1756,7 +1756,7 @@ var damage: int = 15
 var lifetime: float = 3.0
 
 ## 重力
-var gravity: float = 200.0
+var gravity_force: float = 200.0
 
 ## 初始速度
 var velocity: Vector2 = Vector2.ZERO
@@ -1777,7 +1777,7 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# 应用重力
-	velocity.y += gravity * delta
+	velocity.y += gravity_force * delta
 
 	# 移动
 	position += velocity * delta
@@ -2018,6 +2018,172 @@ git commit -A -m "test: verify all systems working correctly"
 git add assets/sprites/
 git commit -m "art: integrate free Pixel Adventure 1 assets"
 ```
+
+---
+
+## Task 17: 按键提示功能
+
+**Files:**
+- Create: `scripts/controls_overlay.gd`
+- Modify: `scenes/main.tscn`
+- Modify: `scripts/ui_controller.gd`
+- Modify: `scripts/input_handler.gd`
+
+- [ ] **Step 1: 创建 ControlsOverlay 脚本**
+
+```gdscript
+## 按键控制器 - 管理按键提示面板
+extends PanelContainer
+
+## 按键信息数据结构
+struct KeyBinding {
+	var action: String
+	var keys: Array[String]
+	var description: String
+}
+
+## 所有按键绑定
+var key_bindings: Array[KeyBinding] = []
+
+func _ready() -> void:
+	_initialize_key_bindings()
+	_update_ui()
+
+## 初始化按键绑定
+func _initialize_key_bindings() -> void:
+	key_bindings = [
+		KeyBinding.new("移动", ["A", "D", "←", "→"], "左右移动"),
+		KeyBinding.new("跳跃", ["Space"], "跳跃"),
+		KeyBinding.new("下蹲", ["S"], "下蹲/蹲下"),
+		KeyBinding.new("攻击 1", ["J"], "近战攻击 (剑)"),
+		KeyBinding.new("攻击 2", ["K"], "远程攻击 (弓)"),
+		KeyBinding.new("攻击 3", ["L"], "法术攻击 (法杖)"),
+		KeyBinding.new("切换武器", ["Q", "E"], "切换武器"),
+		KeyBinding.new("暂停", ["Escape", "Enter(手柄)"], "暂停/继续游戏"),
+		KeyBinding.new("帮助", ["H"], "显示/隐藏本面板"),
+	]
+
+## 更新 UI 显示
+func _update_ui() -> void:
+	var container = $VBoxContainer
+	if not container:
+		return
+
+	# 清除现有内容
+	for child in container.get_children():
+		child.queue_free()
+
+	# 添加标题
+	var title = Label.new()
+	title.text = "操作说明"
+	title.add_theme_font_size_override("font_size", 24)
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	container.add_child(title)
+
+	var separator = HSeparator.new()
+	container.add_child(separator)
+
+	# 添加按键绑定
+	for binding in key_bindings:
+		var hbox = HBoxContainer.new()
+
+		var action_label = Label.new()
+		action_label.text = binding.action + ":"
+		action_label.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+		action_label.custom_minimum_size.x = 100
+		hbox.add_child(action_label)
+
+		var keys_label = Label.new()
+		keys_label.text = " [ " + " / ".join(binding.keys) + " ]"
+		keys_label.add_theme_color_override("font_color", Color(0.2, 0.8, 1.0))
+		hbox.add_child(keys_label)
+
+		var desc_label = Label.new()
+		desc_label.text = " - " + binding.description
+		desc_label.add_theme_color_override("font_color", Color(0.7, 0.7, 0.7))
+		hbox.add_child(desc_label)
+
+		container.add_child(hbox)
+```
+
+- [ ] **Step 2: 修改 main.tscn 添加帮助按钮和面板**
+
+```gdscript
+# 在 UI CanvasLayer 下添加:
+[node name="HelpButton" type="Button" parent="UI"]
+offset_left = 1180.0
+offset_top = 60.0
+offset_right = 1260.0
+offset_bottom = 90.0
+text = "? 帮助"
+
+[node name="ControlsOverlay" type="PanelContainer" parent="UI"]
+visible = false
+offset_left = 400.0
+offset_top = 150.0
+offset_right = 880.0
+offset_bottom = 550.0
+script = ExtResource("6_controls")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ControlsOverlay"]
+layout_mode = 2
+```
+
+- [ ] **Step 3: 修改 ui_controller.gd 添加帮助功能**
+
+```gdscript
+@onready var help_button: Button = $HelpButton
+@onready var controls_overlay: PanelContainer = $ControlsOverlay
+
+func _ready() -> void:
+	# ... 现有代码 ...
+
+	# 连接帮助按钮
+	if help_button:
+		help_button.pressed.connect(_on_help_pressed)
+
+	# 连接 H 键切换帮助面板
+	InputHandler.toggle_help_pressed.connect(_on_toggle_help)
+
+func _on_help_pressed() -> void:
+	if controls_overlay:
+		controls_overlay.visible = not controls_overlay.visible
+
+func _on_toggle_help() -> void:
+	if controls_overlay:
+		controls_overlay.visible = not controls_overlay.visible
+```
+
+- [ ] **Step 4: 修改 input_handler.gd 添加切换帮助信号**
+
+```gdscript
+## 信号：切换帮助面板
+signal toggle_help_pressed
+
+func _handle_keyboard_input(event: InputEventKey) -> void:
+	# ... 现有代码 ...
+	KEY_H:
+		toggle_help_pressed.emit()
+```
+
+- [ ] **Step 5: 提交**
+
+```bash
+git add scripts/controls_overlay.gd scenes/main.tscn scripts/ui_controller.gd scripts/input_handler.gd
+git commit -m "feat: add controls overlay with key bindings display"
+```
+
+---
+
+## 变更记录
+
+### 2026-03-26
+- **新增**: 按键提示功能 - 按 H 键或点击 "?" 按钮显示/隐藏操作说明面板
+- **新增**: 支持键盘和手柄按键绑定显示
+- **修改**: `scripts/input_handler.gd` - 添加 `toggle_help_pressed` 信号
+- **修改**: `scripts/ui_controller.gd` - 添加帮助按钮和面板控制逻辑
+- **新增**: `scripts/controls_overlay.gd` - 按键提示面板控制器
+- **修改**: `scenes/main.tscn` - 添加帮助按钮和 ControlsOverlay 面板
 
 ---
 
