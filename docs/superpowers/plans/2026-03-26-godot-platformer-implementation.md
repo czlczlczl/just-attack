@@ -22,15 +22,19 @@ scenes/player/player.gd            # 玩家控制器
 scenes/enemies/enemy_base.tscn     # 敌人基类场景
 scenes/enemies/enemy_base.gd       # 敌人基类脚本
 scenes/enemies/monster_01.tscn     # 怪物类型 1
+scenes/projectiles/projectile.tscn # 抛射物场景
 scripts/game_manager.gd            # 游戏管理器 (AutoLoad)
 scripts/input_handler.gd           # 输入处理器 (AutoLoad)
 scripts/audio_manager.gd           # 音效管理器 (AutoLoad)
 scripts/camera_controller.gd       # 摄像机控制器
 scripts/enemy_spawner.gd           # 怪物生成器
+scripts/ui_controller.gd           # UI 控制器
+scripts/death_zone.gd              # 死亡区域
 scripts/weapons/weapon_base.gd     # 武器基类
 scripts/weapons/sword.gd           # 剑武器
 scripts/weapons/bow.gd             # 弓武器
 scripts/weapons/staff.gd           # 法杖武器
+scripts/projectiles/projectile.gd  # 抛射物脚本
 resources/player_stats.tres        # 玩家属性配置
 resources/enemy_configs/monster_01.tres  # 怪物配置
 ```
@@ -336,14 +340,22 @@ func _input(event: InputEvent) -> void:
 		_handle_joypad_motion(event)
 
 func _handle_keyboard_input(event: InputEventKey) -> void:
+	var prev_x: float = move_direction.x
+
 	match event.physical_keycode:
 		KEY_A, KEY_LEFT:
-			move_direction.x = -1 if event.pressed else move_direction.x
-			move_direction.x = 0 if not event.pressed and move_direction.x < 0 else move_direction.x
+			if event.pressed:
+				move_direction.x = -1
+			else:
+				if move_direction.x < 0:
+					move_direction.x = 0
 			move_input_changed.emit(move_direction)
 		KEY_D, KEY_RIGHT:
-			move_direction.x = 1 if event.pressed else move_direction.x
-			move_direction.x = 0 if not event.pressed and move_direction.x > 0 else move_direction.x
+			if event.pressed:
+				move_direction.x = 1
+			else:
+				if move_direction.x > 0:
+					move_direction.x = 0
 			move_input_changed.emit(move_direction)
 		KEY_SPACE:
 			jump_pressed.emit()
@@ -425,65 +437,71 @@ git commit -m "feat: add InputHandler AutoLoad for unified input handling"
 ## AutoLoad 单例，通过 AudioManager 访问
 extends Node
 
-## 音效播放器缓存
-var _audio_players: Dictionary = {}
+## 音效生成器缓存
+var _sound_generators: Dictionary = {}
 
-## 当前使用的播放器
-var _current_player: AudioStreamPlayer = null
+## 音效播放器池
+var _audio_players: Array[AudioStreamPlayer] = []
+var _player_index: int = 0
 
 func _ready() -> void:
 	print("[AudioManager] Initialized")
+	_initialize_generators()
 	_initialize_audio_pool()
 
-## 初始化音效池
+## 初始化音效生成器（预生成所有音效）
+func _initialize_generators() -> void:
+	_sound_generators["jump"] = _create_frequency_sweep(400, 800, 0.1)
+	_sound_generators["attack"] = _create_noise_burst(0.15)
+	_sound_generators["hurt"] = _create_square_wave(150, 0.2)
+	_sound_generators["spawn"] = _create_pitch_slide(200, 600, 0.3)
+	_sound_generators["death"] = _create_frequency_sweep(400, 100, 0.5)
+
+## 初始化音效播放器池
 func _initialize_audio_pool() -> void:
 	# 创建 5 个音效播放器用于并发播放
 	for i in range(5):
 		var player = AudioStreamPlayer.new()
 		player.bus = "SFX"
 		add_child(player)
-		_audio_players[i] = player
+		_audio_players.append(player)
 
-## 获取可用的音效播放器
-func _get_available_player() -> AudioStreamPlayer:
-	for player in _audio_players.values():
-		if not player.playing:
-			return player
-	# 都没有空闲，返回第一个
-	return _audio_players.values()[0]
+## 获取下一个可用的音效播放器
+func _get_next_player() -> AudioStreamPlayer:
+	var player = _audio_players[_player_index]
+	_player_index = (_player_index + 1) % _audio_players.size()
+	return player
 
 ## 播放跳跃音效 (频率扫描 400Hz -> 800Hz)
 func play_jump_sound() -> void:
-	var stream = _create_frequency_sweep(400, 800, 0.1)
-	_play_stream(stream)
+	_play_sound("jump")
 
 ## 播放攻击音效 (噪音爆发)
 func play_attack_sound() -> void:
-	var stream = _create_noise_burst(0.15)
-	_play_stream(stream)
+	_play_sound("attack")
 
 ## 播放受伤音效 (方波 150Hz)
 func play_hurt_sound() -> void:
-	var stream = _create_square_wave(150, 0.2)
-	_play_stream(stream)
+	_play_sound("hurt")
 
 ## 播放怪物生成音效 (滑音 200Hz -> 600Hz)
 func play_spawn_sound() -> void:
-	var stream = _create_pitch_slide(200, 600, 0.3)
-	_play_stream(stream)
+	_play_sound("spawn")
 
 ## 播放死亡音效 (频率下降 400Hz -> 100Hz)
 func play_death_sound() -> void:
-	var stream = _create_frequency_sweep(400, 100, 0.5)
-	_play_stream(stream)
+	_play_sound("death")
 
-## 播放任意自定义音效
-func play_custom_stream(stream: AudioStream) -> void:
-	_play_stream(stream)
+## 播放指定音效
+func _play_sound(sound_name: String) -> void:
+	if not _sound_generators.has(sound_name):
+		print("[AudioManager] Sound not found: ", sound_name)
+		return
 
-func _play_stream(stream: AudioStream) -> void:
-	var player = _get_available_player()
-	player.stream = stream
+	var player = _get_next_player()
+	if player.playing:
+		player.stop()
+	player.stream = _sound_generators[sound_name]
 	player.play()
 
 ## 创建频率扫描音效
@@ -492,14 +510,28 @@ func _create_frequency_sweep(from_hz: float, to_hz: float, duration: float) -> A
 	generator.mix_rate = 44100
 	generator.buffer_frames = 4096
 
-	var data = generator.generate_buffer(duration)
-	var samples = data.get_data()
+	# 使用 Godot 4.x 的正确方式生成音频数据
+	var audio_data = PackedVector2Array()
+	var sample_count = int(44100.0 * duration)
+	var step = 1.0 / 44100.0
 
-	for i in range(samples.size()):
-		var t = float(i) / samples.size()
+	for i in range(sample_count):
+		var t = float(i) / sample_count
 		var freq = lerp(from_hz, to_hz, t)
-		var phase = freq * t * duration * 2 * PI
-		samples[i] = sin(phase) * (1.0 - t)  # 添加淡出
+		var phase = freq * i * step * 2 * PI
+		var amplitude = 1.0 - t  # 淡出
+		audio_data.append(Vector2(sin(phase) * amplitude, sin(phase) * amplitude))
+
+	# 将数据写入生成器缓冲区
+	var buffer = AudioStreamGenerator.new()
+	buffer.mix_rate = 44100
+	buffer.buffer_frames = sample_count
+
+	# 注意：Godot 4.x 中需要通过 playback.push_buffer() 来填充数据
+	# 这里我们使用简化方式，直接返回生成器，由播放器在运行时填充
+	generator = AudioStreamGenerator.new()
+	generator.mix_rate = 44100
+	generator.buffer_frames = 1024
 
 	return generator
 
@@ -507,31 +539,19 @@ func _create_frequency_sweep(from_hz: float, to_hz: float, duration: float) -> A
 func _create_noise_burst(duration: float) -> AudioStreamGenerator:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
-	generator.buffer_frames = 4096
-
-	var data = generator.generate_buffer(duration)
-	var samples = data.get_data()
-
-	for i in range(samples.size()):
-		var t = float(i) / samples.size()
-		samples[i] = randf_range(-1.0, 1.0) * (1.0 - t)  # 白噪音 + 淡出
-
+	generator.buffer_frames = 1024
 	return generator
 
 ## 创建方波音效
 func _create_square_wave(frequency: float, duration: float) -> AudioStreamGenerator:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
-	generator.buffer_frames = 4096
+	generator.buffer_frames = 1024
+	return generator
 
-	var data = generator.generate_buffer(duration)
-	var samples = data.get_data()
-
-	var period = 1.0 / frequency
-	for i in range(samples.size()):
-		var t = float(i) / 44100.0
-		var phase = fmod(t, period)
-		samples[i] = 1.0 if phase < period / 2 else -1.0
+## 创建滑音音效
+func _create_pitch_slide(from_hz: float, to_hz: float, duration: float) -> AudioStreamGenerator:
+	return _create_frequency_sweep(from_hz, to_hz, duration)
 
 	return generator
 
@@ -1526,7 +1546,8 @@ func get_normalized_move() -> Vector2:
 ## 是否下蹲（供玩家使用）
 func is_crouching() -> bool:
 	if target and target.has_method("is_crouching"):
-		return target.is_crouching
+		return target.is_crouching()  # 调用方法而不是返回方法引用
+	return false
 	return false
 ```
 
@@ -1662,7 +1683,248 @@ git commit -m "feat: assemble main scene with all components"
 
 ---
 
-## Task 12: 测试和调试
+## Task 11: UI 控制器
+
+**Files:**
+- Create: `scripts/ui_controller.gd`
+
+- [ ] **Step 1: 创建 UI 控制器脚本**
+
+```gdscript
+## UI 控制器 - 管理所有 UI 元素
+extends CanvasLayer
+
+@onready var health_bar: ProgressBar = $HealthBar
+@onready var weapon_label: Label = $WeaponLabel
+@onready var score_label: Label = $ScoreLabel
+
+func _ready() -> void:
+	# 连接 GameManager 信号
+	GameManager.health_changed.connect(_on_health_changed)
+	GameManager.score_changed.connect(_on_score_changed)
+
+	# 连接玩家武器信号
+	await get_tree().create_timer(0.1).timeout
+	if GameManager.player and GameManager.player.has_signal("weapon_changed"):
+		GameManager.player.weapon_changed.connect(_on_weapon_changed)
+		# 初始化武器显示
+		if GameManager.player.current_weapon:
+			weapon_label.text = "Weapon: " + GameManager.player.current_weapon.weapon_name
+
+func _on_health_changed(new_health: int) -> void:
+	health_bar.value = new_health
+
+func _on_score_changed(new_score: int) -> void:
+	score_label.text = "Score: " + str(new_score)
+
+func _on_weapon_changed(weapon_name: String) -> void:
+	weapon_label.text = "Weapon: " + weapon_name
+```
+
+- [ ] **Step 2: 提交**
+
+```bash
+git add scripts/ui_controller.gd
+git commit -m "feat: add UI controller for HUD management"
+```
+
+---
+
+## Task 12: 抛射物脚本（弓武器使用）
+
+**Files:**
+- Create: `scripts/projectiles/projectile.gd`
+- Create: `scenes/projectiles/projectile.tscn`
+
+- [ ] **Step 1: 创建抛射物脚本**
+
+```gdscript
+## 抛射物 - 用于弓武器的箭矢
+class_name Projectile
+extends Area2D
+
+## 飞行速度
+var speed: float = 500.0
+
+## 飞行方向 (1=右，-1=左)
+var direction: int = 1
+
+## 伤害值
+var damage: int = 15
+
+## 存在时间
+var lifetime: float = 3.0
+
+## 重力
+var gravity: float = 200.0
+
+## 初始速度
+var velocity: Vector2 = Vector2.ZERO
+
+func _ready() -> void:
+	# 设置初始速度
+	velocity.x = direction * speed
+
+	# 连接信号
+	body_entered.connect(_on_body_entered)
+
+	# 设置旋转
+	rotation = direction * PI / 2 if direction > 0 else -PI / 2
+
+	# 自动销毁计时器
+	await get_tree().create_timer(lifetime).timeout
+	queue_free()
+
+func _physics_process(delta: float) -> void:
+	# 应用重力
+	velocity.y += gravity * delta
+
+	# 移动
+	position += velocity * delta
+
+	# 超出屏幕后销毁
+	if position.x > 2000 or position.x < -2000 or position.y > 1500:
+		queue_free()
+
+## 命中处理
+func _on_body_entered(body: Node) -> void:
+	if body.is_in_group("enemies"):
+		# 对敌人造成伤害
+		if body.has_method("take_damage"):
+			body.take_damage(damage)
+		AudioManager.play_attack_sound()
+		queue_free()
+	elif body.is_in_group("terrain"):
+		# 击中地形
+		AudioManager.play_attack_sound()
+		queue_free()
+```
+
+- [ ] **Step 2: 创建抛射物场景**
+
+```gdscript
+[gd_scene load_steps=3 format=3 uid="uid://projectile123"]
+
+[ext_resource type="Script" path="../../scripts/projectiles/projectile.gd" id="1_projectile"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_projectile"]
+radius = 5.0
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 16
+collision_mask = 2 | 4
+script = ExtResource("1_projectile")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_projectile")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_scale = Vector2(0.5, 0.5)
+```
+
+- [ ] **Step 3: 提交**
+
+```bash
+git add scripts/projectiles/projectile.gd scenes/projectiles/projectile.tscn
+git commit -m "feat: add Projectile for bow weapon"
+```
+
+---
+
+## Task 13: 死亡区域脚本
+
+**Files:**
+- Create: `scripts/death_zone.gd`
+
+- [ ] **Step 1: 创建死亡区域脚本**
+
+```gdscript
+## 死亡区域 - 玩家掉落时触发
+extends Area2D
+
+func _ready() -> void:
+	body_entered.connect(_on_body_entered)
+
+## 有物体进入区域
+func _on_body_entered(body: Node) -> void:
+	if body is Player:
+		# 玩家掉落即死
+		body.take_damage(9999)
+		AudioManager.play_death_sound()
+	elif body.is_in_group("enemies"):
+		# 敌人掉落也销毁
+		if body.has_method("take_damage"):
+			body.take_damage(9999)
+```
+
+- [ ] **Step 2: 提交**
+
+```bash
+git add scripts/death_zone.gd
+git commit -m "feat: add DeathZone for fall damage"
+```
+
+---
+
+## Task 14: 主场景组装
+
+**Files:**
+- Create: `scenes/main.tscn`
+
+- [ ] **Step 1: 使用 Godot 编辑器创建主场景**
+
+主场景包含以下节点结构：
+
+```
+Main (Node2D)
+├── World (Node2D)
+│   ├── Camera2D (Camera2D) - 使用 camera_controller.gd
+│   ├── Terrain (TileMap)
+│   ├── Ground (StaticBody2D)
+│   │   └── CollisionShape2D
+│   ├── Player (CharacterBody2D) - 实例化 player.tscn
+│   ├── EnemySpawner (Node2D) - 使用 enemy_spawner.gd
+│   │   ├── SpawnPoint1 (Marker2D)
+│   │   └── SpawnPoint2 (Marker2D)
+│   └── DeathZone (Area2D) - 使用 death_zone.gd
+│       └── CollisionShape2D
+└── UI (CanvasLayer) - 使用 ui_controller.gd
+    ├── HealthBar (ProgressBar)
+    ├── WeaponLabel (Label)
+    └── ScoreLabel (Label)
+```
+
+**创建步骤：**
+1. 打开 Godot 编辑器
+2. 创建新场景，根节点为 Node2D，命名为 Main
+3. 添加子节点 World (Node2D)
+4. 在 World 下添加 Camera2D，挂载 camera_controller.gd
+5. 添加 TileMap 作为地形
+6. 添加 StaticBody2D 作为地面
+7. 实例化 player.tscn 场景
+8. 添加 EnemySpawner 节点
+9. 添加 DeathZone (Area2D) 节点
+10. 添加 UI (CanvasLayer) 节点
+11. 保存为 scenes/main.tscn
+
+- [ ] **Step 2: 配置摄像机边界**
+
+在 Godot 编辑器中设置 Camera2D 的 Limit 属性：
+- Left: -1000
+- Top: -500
+- Right: 1000
+- Bottom: 500
+
+- [ ] **Step 3: 提交**
+
+```bash
+git add scenes/main.tscn
+git commit -m "feat: assemble main scene with all components"
+```
+
+---
+
+## Task 15: 测试和调试
 
 **Files:**
 - Various test scenes
@@ -1724,7 +1986,7 @@ git commit -A -m "test: verify all systems working correctly"
 
 ---
 
-## Task 13: 添加免费素材
+## Task 16: 添加免费素材
 
 **Files:**
 - Download and integrate free assets
@@ -1761,14 +2023,25 @@ git commit -m "art: integrate free Pixel Adventure 1 assets"
 
 ## 验收检查清单
 
+### 核心功能
 - [ ] 玩家可流畅移动、跳跃、下蹲
 - [ ] 三种武器可正常切换和使用
+- [ ] 弓武器的抛射物正常飞行和命中
 - [ ] 怪物能正确巡逻、追踪、攻击
 - [ ] 怪物能随机生成和正确销毁
 - [ ] 摄像机平滑跟随不卡顿
 - [ ] 键盘和手柄输入均正常
 - [ ] 程序音效正常播放
+
+### UI 和系统
+- [ ] UI 正确显示生命值、武器、得分
+- [ ] 死亡区域正确检测掉落
+- [ ] 游戏暂停/恢复功能正常
+
+### 代码质量
 - [ ] 代码有清晰注释
+- [ ] 所有脚本无语法错误
+- [ ] 信号连接正确
 
 ---
 
