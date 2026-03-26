@@ -1,0 +1,7 @@
+<svg height="128" width="128" xmlns="http://www.w3.org/2000/svg">
+  <rect x="2" y="2" width="124" height="124" rx="14" fill="#363d52" stroke="#232638" stroke-width="4"/>
+  <g transform="translate(64,64)">
+    <circle r="40" fill="#478cb8"/>
+    <text y="15" x="50%" text-anchor="middle" fill="white" font-size="60" font-weight="bold">P</text>
+  </g>
+</svg>
