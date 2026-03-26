@@ -45,7 +45,7 @@ func attack(direction: int) -> void:
 	var hitbox = _create_hitbox()
 	get_tree().current_scene.add_child(hitbox)
 
-	# 检测命中
+	# 等待一帧让物理引擎检测碰撞
 	await get_tree().process_frame
 	var targets = _check_hits(hitbox)
 	attack_hit.emit(targets)
@@ -61,11 +61,16 @@ func _create_hitbox() -> Area2D:
 
 	shape.size = Vector2(attack_range * 2, 20)
 	collision_shape.shape = shape
-	hitbox.collision_layer = 0
-	hitbox.collision_mask = 2  # enemies layer
+
+	# 设置碰撞层和掩码
+	hitbox.collision_layer = 4  # hitbox 层
+	hitbox.collision_mask = 2   # 检测敌人层
+
+	# 获取玩家（武器的父节点）的全局位置
+	var player_pos = global_position
 
 	# 设置位置（根据攻击方向）
-	hitbox.position = global_position + Vector2(attack_range * attack_direction, 0)
+	hitbox.global_position = player_pos + Vector2(attack_range * attack_direction, 0)
 
 	hitbox.add_child(collision_shape)
 	return hitbox
@@ -74,12 +79,14 @@ func _create_hitbox() -> Area2D:
 func _check_hits(hitbox: Area2D) -> Array:
 	var targets = []
 	var bodies = hitbox.get_overlapping_bodies()
+
 	for body in bodies:
 		if body.is_in_group("enemies"):
 			targets.append(body)
-			# 对敌人造成伤害
+			# 对敌人造成伤害，传递攻击方向
 			if body.has_method("take_damage"):
-				body.take_damage(damage)
+				body.take_damage(damage, attack_direction)
+
 	return targets
 
 ## 获取武器名称

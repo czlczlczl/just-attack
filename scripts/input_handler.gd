@@ -39,8 +39,8 @@ func _ready() -> void:
 	print("[InputHandler] Initialized")
 
 func _input(event: InputEvent) -> void:
-	# 只处理按下事件，避免重复触发
-	if event is InputEventKey and event.pressed and not event.echo:
+	# 处理键盘按下和释放事件（排除重复事件）
+	if event is InputEventKey and not event.echo:
 		_handle_keyboard_input(event)
 	elif event is InputEventJoypadButton and event.pressed:
 		_handle_controller_input(event)
@@ -66,24 +66,32 @@ func _handle_keyboard_input(event: InputEventKey) -> void:
 					move_direction.x = 0
 			move_input_changed.emit(move_direction)
 		KEY_SPACE:
-			jump_pressed.emit()
+			if event.pressed:
+				jump_pressed.emit()
 		KEY_S:
 			is_crouching = event.pressed
 			crouch_input_changed.emit(is_crouching)
 		KEY_J:
-			attack_pressed.emit(0)
+			if event.pressed:
+				attack_pressed.emit(0)
 		KEY_K:
-			attack_pressed.emit(1)
+			if event.pressed:
+				attack_pressed.emit(1)
 		KEY_L:
-			attack_pressed.emit(2)
+			if event.pressed:
+				attack_pressed.emit(2)
 		KEY_Q:
-			weapon_switch_pressed.emit(-1)
+			if event.pressed:
+				weapon_switch_pressed.emit(-1)
 		KEY_E:
-			weapon_switch_pressed.emit(1)
+			if event.pressed:
+				weapon_switch_pressed.emit(1)
 		KEY_ESCAPE:
-			pause_pressed.emit()
+			if event.pressed:
+				pause_pressed.emit()
 		KEY_H:
-			toggle_help_pressed.emit()
+			if event.pressed:
+				toggle_help_pressed.emit()
 
 func _handle_controller_input(event: InputEventJoypadButton) -> void:
 	match event.button_index:

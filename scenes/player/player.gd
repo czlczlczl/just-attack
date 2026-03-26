@@ -79,6 +79,8 @@ func _physics_process(delta: float) -> void:
 	# 更新面向方向
 	if move_direction != 0:
 		facing_direction = sign(move_direction)
+		# 同步更新武器位置
+		_update_weapon_position()
 
 	# 更新无敌计时器
 	if invincibility_timer > 0:
@@ -166,6 +168,14 @@ func add_weapon(weapon: Node2D) -> void:
 func _update_animation_state() -> void:
 	# 后续添加 AnimationPlayer 后实现
 	pass
+
+## 更新武器位置
+func _update_weapon_position() -> void:
+	if current_weapon and current_weapon.is_inside_tree():
+		current_weapon.position = Vector2(32 * facing_direction, 0)
+		# 如果武器有方向属性，也更新它
+		if current_weapon.has_method("set_attack_direction"):
+			current_weapon.set_attack_direction(facing_direction)
 
 ## 获取归一化移动方向
 func get_normalized_move() -> Vector2:

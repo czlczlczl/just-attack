@@ -23,12 +23,16 @@ func attack(direction: int) -> void:
 
 	# 发射抛射物
 	if projectile_scene:
-		var projectile = projectile_scene.instantiate()
+		var projectile = projectile_scene.instantiate() as Node2D
 		get_tree().current_scene.add_child(projectile)
 		projectile.global_position = global_position + Vector2(50 * direction, 0)
-		projectile.direction = direction
-		projectile.damage = damage
-		projectile.speed = projectile_speed
+		# 设置抛射物属性
+		if projectile.has_method("set_direction"):
+			projectile.set_direction(direction)
+		if projectile.has_method("set_damage"):
+			projectile.set_damage(damage)
+		if projectile.has_method("set_speed"):
+			projectile.set_speed(projectile_speed)
 	else:
 		# 如果没有设置抛射物场景，直接调用父类方法
 		super.attack(direction)

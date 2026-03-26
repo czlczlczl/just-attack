@@ -16,5 +16,5 @@ func _check_hits(hitbox: Area2D) -> Array:
 			targets.append(body)
 			# 法杖可以穿透，继续检测更多目标
 			if body.has_method("take_damage"):
-				body.take_damage(damage)
+				body.take_damage(damage, attack_direction)
 	return targets

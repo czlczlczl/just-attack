@@ -97,3 +97,18 @@ pause={
 2d_physics/layer_3="terrain"
 2d_physics/layer_4="hitbox"
 2d_physics/layer_5="projectiles"
+
+[physics]
+
+common/pause_on_focus_loss = true
+2d/default_gravity = 980.0
+2d/default_linear_damping = 0.0
+2d/default_angular_damping = 1.0
+
+[physics_layer_2d]
+
+layer_1_collision_mask = 6
+layer_2_collision_mask = 5
+layer_3_collision_mask = 1
+layer_4_collision_mask = 2
+layer_5_collision_mask = 2
