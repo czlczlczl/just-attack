@@ -1,0 +1,12 @@
+{
+"resource_local_to_scene": false,
+"resource_name": "player_texture",
+"size": {
+"x": 32,
+"y": 48
+},
+"regions": [],
+"filter": true,
+"mipmaps": false,
+"repeat": false
+}

@@ -4,6 +4,8 @@ extends CanvasLayer
 @onready var health_bar: ProgressBar = $HealthBar
 @onready var weapon_label: Label = $WeaponLabel
 @onready var score_label: Label = $ScoreLabel
+@onready var help_button: Button = $HelpButton
+@onready var controls_overlay: PanelContainer = $ControlsOverlay
 
 func _ready() -> void:
 	# 连接 GameManager 信号
@@ -18,6 +20,13 @@ func _ready() -> void:
 		if GameManager.player.current_weapon:
 			weapon_label.text = "Weapon: " + GameManager.player.current_weapon.weapon_name
 
+	# 连接帮助按钮
+	if help_button:
+		help_button.pressed.connect(_on_help_pressed)
+
+	# 连接 H 键切换帮助面板
+	InputHandler.toggle_help_pressed.connect(_on_toggle_help)
+
 func _on_health_changed(new_health: int) -> void:
 	health_bar.value = new_health
 
@@ -26,3 +35,11 @@ func _on_score_changed(new_score: int) -> void:
 
 func _on_weapon_changed(weapon_name: String) -> void:
 	weapon_label.text = "Weapon: " + weapon_name
+
+func _on_help_pressed() -> void:
+	if controls_overlay:
+		controls_overlay.visible = not controls_overlay.visible
+
+func _on_toggle_help() -> void:
+	if controls_overlay:
+		controls_overlay.visible = not controls_overlay.visible

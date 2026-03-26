@@ -2,6 +2,17 @@
 class_name EnemyBase
 extends CharacterBody2D
 
+## 敌人状态枚举
+enum EnemyState {
+	IDLE,
+	PATROL,
+	CHASE,
+	ATTACK,
+	RETURN,
+	STUNNED,
+	DEAD
+}
+
 ## 敌人属性
 @export var stats: EnemyStats
 @export var patrol_points: Array[Vector2]
@@ -171,3 +182,7 @@ func set_patrol_points(points: Array[Vector2]) -> void:
 	patrol_points = points
 	if points.size() > 0:
 		current_state = EnemyState.PATROL
+
+func _exit_tree() -> void:
+	# 清理资源
+	patrol_points.clear()

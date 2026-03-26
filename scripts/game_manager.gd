@@ -35,6 +35,16 @@ signal score_changed(new_score: int)
 ## 信号：生命值改变
 signal health_changed(new_health: int)
 
+func _exit_tree() -> void:
+	# 清理所有游戏资源
+	cleanup()
+
+## 清理所有游戏资源
+func cleanup() -> void:
+	player = null
+	score = 0
+	player_health = 100
+
 func _ready() -> void:
 	print("[GameManager] Initialized")
 

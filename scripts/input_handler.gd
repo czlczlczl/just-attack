@@ -29,6 +29,9 @@ signal weapon_switch_pressed(direction: int)
 ## 信号：暂停按下
 signal pause_pressed
 
+## 信号：切换帮助面板
+signal toggle_help_pressed
+
 ## 手柄震动强度 (0-1)
 var controller_vibration: float = 0.0
 
@@ -79,6 +82,8 @@ func _handle_keyboard_input(event: InputEventKey) -> void:
 			weapon_switch_pressed.emit(1)
 		KEY_ESCAPE:
 			pause_pressed.emit()
+		KEY_H:
+			toggle_help_pressed.emit()
 
 func _handle_controller_input(event: InputEventJoypadButton) -> void:
 	match event.button_index:

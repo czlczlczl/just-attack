@@ -27,7 +27,6 @@ func _initialize_audio_pool() -> void:
 	# 创建 5 个音效播放器用于并发播放
 	for i in range(5):
 		var player = AudioStreamPlayer.new()
-		player.bus = "SFX"
 		add_child(player)
 		_audio_players.append(player)
 
@@ -70,26 +69,49 @@ func _play_sound(sound_name: String) -> void:
 	player.play()
 
 ## 创建频率扫描音效
-func _create_frequency_sweep(from_hz: float, to_hz: float, duration: float) -> AudioStreamGenerator:
+func _create_frequency_sweep(from_hz: float, to_hz: float, duration: float) -> AudioStreamGeneratorPlayback:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
-	generator.buffer_frames = 1024
-	return generator
+	var playback: AudioStreamGeneratorPlayback = generator.instantiate_playback()
+	_generate_sound(playback, from_hz, to_hz, duration, "sweep")
+	return playback
 
 ## 创建噪音爆发音效
-func _create_noise_burst(duration: float) -> AudioStreamGenerator:
+func _create_noise_burst(duration: float) -> AudioStreamGeneratorPlayback:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
-	generator.buffer_frames = 1024
-	return generator
+	var playback: AudioStreamGeneratorPlayback = generator.instantiate_playback()
+	_generate_sound(playback, 0, 0, duration, "noise")
+	return playback
 
 ## 创建方波音效
-func _create_square_wave(frequency: float, duration: float) -> AudioStreamGenerator:
+func _create_square_wave(frequency: float, duration: float) -> AudioStreamGeneratorPlayback:
 	var generator = AudioStreamGenerator.new()
 	generator.mix_rate = 44100
-	generator.buffer_frames = 1024
-	return generator
+	var playback: AudioStreamGeneratorPlayback = generator.instantiate_playback()
+	_generate_sound(playback, frequency, frequency, duration, "square")
+	return playback
 
 ## 创建滑音音效
-func _create_pitch_slide(from_hz: float, to_hz: float, duration: float) -> AudioStreamGenerator:
+func _create_pitch_slide(from_hz: float, to_hz: float, duration: float) -> AudioStreamGeneratorPlayback:
 	return _create_frequency_sweep(from_hz, to_hz, duration)
+
+## 生成声音数据
+func _generate_sound(playback: AudioStreamGeneratorPlayback, from_hz: float, to_hz: float, duration: float, type: String) -> void:
+	var sample_count = int(44100 * duration)
+	for i in range(sample_count):
+		var t = float(i) / sample_count
+		var sample: float = 0.0
+
+		match type:
+			"sweep":
+				var freq = from_hz + (to_hz - from_hz) * t
+				sample = sin(PI * 2 * freq * t)
+			"noise":
+				sample = randf_range(-1, 1) * (1.0 - t)  # 噪音衰减
+			"square":
+				var wave = sin(PI * 2 * from_hz * t)
+				sample = 1.0 if wave > 0 else -1.0
+				sample *= (1.0 - t)  # 衰减
+
+		playback.push_frame(Vector2(sample, sample))

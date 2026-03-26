@@ -9,7 +9,7 @@ extends Camera2D
 @export var follow_speed: float = 5.0
 
 ## 偏移量
-@export var offset: Vector2 = Vector2(0, -50)
+@export var camera_offset: Vector2 = Vector2(0, -50)
 
 ## 边界矩形
 @export var boundary_rect: Rect2
@@ -33,7 +33,7 @@ func _process(delta: float) -> void:
 		return
 
 	# 计算目标位置
-	var base_target = target.global_position + offset + dynamic_offset
+	var base_target = target.global_position + camera_offset + dynamic_offset
 
 	# 根据玩家速度添加提前量
 	if target.has_method("get_normalized_move"):
@@ -50,7 +50,7 @@ func _process(delta: float) -> void:
 		dynamic_offset.y = lerp(dynamic_offset.y, 0, delta * 5)
 
 	# 更新目标位置
-	target_position = target.global_position + offset + dynamic_offset
+	target_position = target.global_position + camera_offset + dynamic_offset
 
 	# 平滑插值
 	global_position = global_position.lerp(target_position, follow_speed * delta)

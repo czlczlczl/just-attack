@@ -23,7 +23,17 @@ var current_enemies: Array[Node] = []
 ## 生成计时器
 var spawn_timer: float = 0.0
 
+func _exit_tree() -> void:
+	# 清理所有敌人
+	clear_all_enemies()
+
 func _ready() -> void:
+	# 如果没有手动配置生成点，自动获取子节点
+	if spawn_points.size() == 0:
+		for child in get_children():
+			if child is Marker2D:
+				spawn_points.append(child)
+
 	# 延迟获取玩家引用
 	await get_tree().create_timer(0.5).timeout
 	if GameManager.player:
@@ -66,7 +76,7 @@ func try_spawn_enemy() -> void:
 
 	# 设置巡逻点（如果有多个生成点）
 	if enemy.has_method("set_patrol_points") and spawn_points.size() > 1:
-		var patrol_points = []
+		var patrol_points: Array[Vector2] = []
 		for sp in spawn_points:
 			patrol_points.append(sp.global_position)
 		enemy.set_patrol_points(patrol_points)

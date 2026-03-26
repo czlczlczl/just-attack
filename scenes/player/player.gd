@@ -38,6 +38,14 @@ var move_direction: float = 0.0
 ## 面向方向 (1=右，-1=左)
 var facing_direction: int = 1
 
+func _exit_tree() -> void:
+	# 清理武器
+	for weapon in weapons:
+		if is_instance_valid(weapon):
+			weapon.queue_free()
+	weapons.clear()
+	current_weapon = null
+
 func _ready() -> void:
 	# 注册到 GameManager
 	GameManager.register_player(self)

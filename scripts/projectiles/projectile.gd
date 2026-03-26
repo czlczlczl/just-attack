@@ -15,14 +15,14 @@ var damage: int = 15
 var lifetime: float = 3.0
 
 ## 重力
-var gravity: float = 200.0
+var gravity_force: float = 200.0
 
-## 初始速度
-var velocity: Vector2 = Vector2.ZERO
+## 移动速度
+var move_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	# 设置初始速度
-	velocity.x = direction * speed
+	move_velocity.x = direction * speed
 
 	# 连接信号
 	body_entered.connect(_on_body_entered)
@@ -36,10 +36,10 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	# 应用重力
-	velocity.y += gravity * delta
+	move_velocity.y += gravity_force * delta
 
 	# 移动
-	position += velocity * delta
+	position += move_velocity * delta
 
 	# 超出屏幕后销毁
 	if position.x > 2000 or position.x < -2000 or position.y > 1500:
