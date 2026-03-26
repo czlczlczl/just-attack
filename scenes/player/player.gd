@@ -53,6 +53,9 @@ func _ready() -> void:
 	# 初始化无敌计时器
 	invincibility_timer = 0.0
 
+	# 初始化武器
+	_initialize_weapons()
+
 func _physics_process(delta: float) -> void:
 	# 应用重力
 	if not is_on_ground:
@@ -159,3 +162,14 @@ func _update_animation_state() -> void:
 ## 获取归一化移动方向
 func get_normalized_move() -> Vector2:
 	return Vector2(move_direction, 0).normalized()
+
+## 初始化武器
+func _initialize_weapons() -> void:
+	# 创建三种武器
+	var sword = preload("res://scenes/weapons/sword.tscn").instantiate()
+	var bow = preload("res://scenes/weapons/bow.tscn").instantiate()
+	var staff = preload("res://scenes/weapons/staff.tscn").instantiate()
+
+	add_weapon(sword)
+	add_weapon(bow)
+	add_weapon(staff)

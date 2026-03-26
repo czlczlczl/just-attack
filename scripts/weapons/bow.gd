@@ -29,3 +29,6 @@ func attack(direction: int) -> void:
 		projectile.direction = direction
 		projectile.damage = damage
 		projectile.speed = projectile_speed
+	else:
+		# 如果没有设置抛射物场景，直接调用父类方法
+		super.attack(direction)
