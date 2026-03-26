@@ -12,6 +12,9 @@ mono_data_*/
 # Worktrees
 .worktrees/
 
+# Resources (only ignore generated .tres files, keep scripts)
+*.tres
+
 # IDE
 .vscode/
 .idea/
