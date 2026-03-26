@@ -12,8 +12,9 @@ mono_data_*/
 # Worktrees
 .worktrees/
 
-# Resources (only ignore generated .tres files, keep scripts)
-*.tres
+# Resources - only ignore generated .import files
+# Keep .tres and .tscn files as they are project configuration
+.import/
 
 # IDE
 .vscode/

@@ -1,0 +1,7 @@
+[gd_resource type="PlaceholderTexture2D" load_steps=2 format=3 uid="uid://bow_texture"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_bow"]
+size = Vector2i(16, 24)
+default_color = Color(0.6, 0.4, 0.2, 1.0)
+
+resource = SubResource("PlaceholderTexture2D_bow")
