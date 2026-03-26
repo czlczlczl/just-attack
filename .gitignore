@@ -9,9 +9,6 @@ data_*/
 mono_data_*/
 .temp_*/
 
-# Worktrees
-.worktrees/
-
 # IDE
 .vscode/
 .idea/
