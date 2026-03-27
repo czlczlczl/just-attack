@@ -26,8 +26,16 @@ func _create_swing_animation() -> void:
 	if not animation_player:
 		return
 
-	# 创建动画
-	var anim = Animation.new()
+	# 先添加空动画
+	animation_player.add_animation("swing")
+	var anim = animation_player.get_animation("swing")
+
+	# 如果动画不存在，创建一个新的
+	if not anim:
+		anim = Animation.new()
+		animation_player.add_animation("swing")
+		anim = animation_player.get_animation("swing")
+
 	anim.length = 0.15
 
 	# 获取 SwordVisual 节点路径
@@ -42,9 +50,6 @@ func _create_swing_animation() -> void:
 	anim.track_insert_key(track_index, 0.05, 0.7854)  # 45 度
 	anim.track_insert_key(track_index, 0.1, -0.2618)  # -15 度
 	anim.track_insert_key(track_index, 0.15, 0.0)     # 0 度（归位）
-
-	# 添加动画到 AnimationPlayer
-	animation_player.add_animation("swing", anim)
 
 func _on_animation_finished() -> void:
 	is_attacking = false
