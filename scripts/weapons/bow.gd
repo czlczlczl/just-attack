@@ -29,7 +29,6 @@ func _create_swing_animation() -> void:
 	# 创建动画
 	var anim = Animation.new()
 	anim.length = 0.2
-	anim.loop_mode = Animation.LOOP_MODE_NONE
 
 	# 获取 BowVisual 节点
 	var visual_path = get_path_to("BowVisual")
