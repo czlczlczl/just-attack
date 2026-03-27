@@ -26,6 +26,9 @@ var current_cooldown: float = 0.0
 ## 信号：攻击命中
 signal attack_hit(targets: Array)
 
+func _ready() -> void:
+	set_process(true)
+
 func _process(delta: float) -> void:
 	if is_cooldown:
 		current_cooldown -= delta
@@ -34,7 +37,10 @@ func _process(delta: float) -> void:
 
 ## 执行攻击
 func attack(direction: int) -> void:
+	print("[Weapon] Attack called: direction=", direction)
+
 	if is_cooldown:
+		print("[Weapon] On cooldown, skipping")
 		return
 
 	attack_direction = direction
@@ -48,6 +54,7 @@ func attack(direction: int) -> void:
 	# 等待一帧让物理引擎检测碰撞
 	await get_tree().process_frame
 	var targets = _check_hits(hitbox)
+	print("[Weapon] Hit ", targets.size(), " targets")
 	attack_hit.emit(targets)
 
 	# 清理命中框
@@ -82,11 +89,15 @@ func _check_hits(hitbox: Area2D) -> Array:
 	var targets = []
 	var bodies = hitbox.get_overlapping_bodies()
 
+	print("[Weapon] Hitbox check: found ", bodies.size(), " bodies")
+
 	for body in bodies:
+		print("[Weapon] Body: ", body.name, " groups: ", body.get_groups())
 		if body.is_in_group("enemies"):
 			targets.append(body)
 			# 对敌人造成伤害，传递攻击方向
 			if body.has_method("take_damage"):
+				print("[Weapon] Dealing ", damage, " damage to ", body.name)
 				body.take_damage(damage, attack_direction)
 
 	return targets

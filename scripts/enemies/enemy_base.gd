@@ -81,14 +81,18 @@ func _ready() -> void:
 	current_health = max_health
 	spawn_position = global_position
 
+	print("[Enemy] Spawned at ", global_position)
+
 	# 获取玩家引用
 	if GameManager.player:
 		player = GameManager.player
 
 	# 获取视觉节点引用
 	enemy_visual = get_node_or_null("EnemyVisual") as ColorRect
+	print("[Enemy] enemy_visual=", enemy_visual)
 	if enemy_visual:
 		original_color = enemy_visual.color
+		print("[Enemy] original_color=", original_color)
 
 	# 获取血条引用
 	health_bar = get_node_or_null("HealthBar")
@@ -251,18 +255,23 @@ func _perform_attack() -> void:
 
 ## 敌人受伤
 func take_damage(amount: int, hit_direction: int = 0) -> void:
+	print("[Enemy] take_damage: amount=", amount, " dir=", hit_direction, " health=", current_health)
+
 	if invincibility_timer > 0:
+		print("[Enemy] Invincible, ignoring damage")
 		return
 
 	invincibility_timer = 0.5  # 0.5 秒无敌时间
 
 	current_health = max(0, current_health - amount)
+	print("[Enemy] New health=", current_health)
 
 	# 显示血条
 	if health_bar:
 		health_bar.value = current_health
 		health_bar.visible = true
 		health_bar_hide_timer = 2.0  # 2 秒后隐藏
+		print("[Enemy] Health bar shown")
 
 	# 发射受伤信号
 	enemy_hit.emit(self, amount)
@@ -270,6 +279,7 @@ func take_damage(amount: int, hit_direction: int = 0) -> void:
 	# 击退效果
 	if hit_direction != 0:
 		knockback_velocity = Vector2(-hit_direction * 300, -150)
+		print("[Enemy] Knockback: ", knockback_velocity)
 
 	# 播放受击闪白效果
 	_flash_on_hit()

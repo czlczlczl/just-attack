@@ -19,8 +19,8 @@ func _ready() -> void:
 	animation_player = get_node_or_null("AnimationPlayer")
 	if animation_player:
 		_create_swing_animation()
-		if animation_player.get_animation_list().size() > 0:
-			animation_player.animation_finished.connect(_on_animation_finished)
+		# 连接动画完成信号
+		animation_player.animation_finished.connect(_on_animation_finished)
 
 func _create_swing_animation() -> void:
 	if not animation_player:
@@ -64,8 +64,9 @@ func _create_swing_animation() -> void:
 	# 添加动画到库
 	anim_library.add_animation("swing", anim)
 
-func _on_animation_finished() -> void:
-	is_attacking = false
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == &"swing":
+		is_attacking = false
 
 func attack(direction: int) -> void:
 	if is_attacking:
