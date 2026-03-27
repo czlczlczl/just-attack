@@ -20,16 +20,20 @@ func _create_swing_animation() -> void:
 	if not animation_player:
 		return
 
-	# 先添加空动画
-	animation_player.add_animation("swing")
-	var anim = animation_player.get_animation("swing")
+	# 获取默认动画库
+	var anim_library = animation_player.get_animation_library("")
 
-	# 如果动画不存在，创建一个新的
-	if not anim:
-		anim = Animation.new()
-		animation_player.add_animation("swing")
-		anim = animation_player.get_animation("swing")
+	# 如果动画已存在，先删除
+	if anim_library and anim_library.has_animation("swing"):
+		anim_library.remove_animation("swing")
 
+	# 如果没有动画库，创建一个临时的
+	if not anim_library:
+		anim_library = AnimationLibrary.new()
+		animation_player.add_animation_library("", anim_library)
+
+	# 创建动画
+	var anim = Animation.new()
 	anim.length = 0.25
 
 	# 获取 StaffVisual 节点路径
@@ -43,6 +47,9 @@ func _create_swing_animation() -> void:
 	anim.track_insert_key(track_index, 0.0, -0.6)   # 后拉
 	anim.track_insert_key(track_index, 0.125, 0.9)  # 挥动
 	anim.track_insert_key(track_index, 0.25, 0.0)   # 归位
+
+	# 添加动画到库
+	anim_library.add_animation("swing", anim)
 
 func attack(direction: int) -> void:
 	if is_cooldown:
