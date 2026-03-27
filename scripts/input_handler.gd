@@ -83,6 +83,7 @@ func _handle_keyboard_input(event: InputEventKey) -> void:
 			crouch_input_changed.emit(is_crouching)
 		KEY_J:
 			if event.pressed:
+				print("[InputHandler] J key pressed, emitting attack_pressed(0)")
 				attack_pressed.emit(0)
 		KEY_K:
 			if event.pressed:

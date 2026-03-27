@@ -110,9 +110,13 @@ func _on_jump_pressed() -> void:
 
 ## 处理攻击
 func _on_attack_pressed(attack_index: int) -> void:
+	print("[Player] Attack pressed, current_weapon=", current_weapon)
 	if current_weapon and current_weapon.has_method("attack"):
+		print("[Player] Calling weapon.attack() with facing_direction=", facing_direction)
 		current_weapon.attack(facing_direction)
 		AudioManager.play_attack_sound()
+	else:
+		print("[Player] No current weapon or weapon missing attack method")
 
 ## 处理武器切换
 func _on_weapon_switch(direction: int) -> void:
@@ -131,6 +135,7 @@ func _on_pause_pressed() -> void:
 
 ## 装备武器
 func _equip_weapon(weapon: Node2D) -> void:
+	print("[Player] Equipping weapon: ", weapon.name, " type=", weapon.get_class())
 	# 卸载当前武器
 	if current_weapon and current_weapon.get_parent():
 		current_weapon.get_parent().remove_child(current_weapon)
@@ -142,6 +147,7 @@ func _equip_weapon(weapon: Node2D) -> void:
 	# 设置武器位置（根据面向方向调整）
 	current_weapon.position = Vector2(32 * facing_direction, 0)
 
+	print("[Player] Weapon equipped, parent=", current_weapon.get_parent().name, " pos=", current_weapon.position)
 	weapon_changed.emit(weapon.weapon_name if weapon.has_method("get_weapon_name") else "Unknown")
 
 ## 玩家受伤
@@ -183,11 +189,16 @@ func get_normalized_move() -> Vector2:
 
 ## 初始化武器
 func _initialize_weapons() -> void:
+	print("[Player] Initializing weapons...")
 	# 创建三种武器
 	var sword = preload("res://scenes/weapons/sword.tscn").instantiate()
 	var bow = preload("res://scenes/weapons/bow.tscn").instantiate()
 	var staff = preload("res://scenes/weapons/staff.tscn").instantiate()
 
+	print("[Player] Weapons instantiated: sword=", sword, " bow=", bow, " staff=", staff)
+
 	add_weapon(sword)
 	add_weapon(bow)
 	add_weapon(staff)
+
+	print("[Player] Weapons initialized, current_weapon=", current_weapon)

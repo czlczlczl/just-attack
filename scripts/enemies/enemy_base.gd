@@ -251,12 +251,16 @@ func _perform_attack() -> void:
 
 ## 敌人受伤
 func take_damage(amount: int, hit_direction: int = 0) -> void:
+	print("[Enemy] take_damage called: amount=", amount, " hit_direction=", hit_direction)
+
 	if invincibility_timer > 0:
+		print("[Enemy] Damage ignored due to invincibility")
 		return
 
 	invincibility_timer = 0.5  # 0.5 秒无敌时间
 
 	current_health = max(0, current_health - amount)
+	print("[Enemy] Health reduced to ", current_health, "/", max_health)
 
 	# 显示血条
 	if health_bar:
