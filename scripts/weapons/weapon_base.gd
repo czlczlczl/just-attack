@@ -28,27 +28,21 @@ signal attack_hit(targets: Array)
 
 func _ready() -> void:
 	set_process(true)
-	print("[Weapon] Ready, weapon_name=", weapon_name)
 
 func _process(delta: float) -> void:
 	if is_cooldown:
 		current_cooldown -= delta
 		if current_cooldown <= 0:
 			is_cooldown = false
-			print("[Weapon] Cooldown finished")
 
 ## 执行攻击
 func attack(direction: int) -> void:
-	print("[Weapon] Attack called: direction=", direction, " is_cooldown=", is_cooldown, " current_cooldown=", current_cooldown)
-
 	if is_cooldown:
-		print("[Weapon] On cooldown, skipping")
 		return
 
 	attack_direction = direction
 	current_cooldown = attack_cooldown
 	is_cooldown = true
-	print("[Weapon] Set cooldown: ", current_cooldown)
 
 	# 创建命中框
 	var hitbox = _create_hitbox()
@@ -57,7 +51,6 @@ func attack(direction: int) -> void:
 	# 等待一帧让物理引擎检测碰撞
 	await get_tree().process_frame
 	var targets = _check_hits(hitbox)
-	print("[Weapon] Hit ", targets.size(), " targets")
 	attack_hit.emit(targets)
 
 	# 清理命中框
@@ -81,11 +74,9 @@ func _create_hitbox() -> Area2D:
 
 	# 获取玩家（武器的父节点）的全局位置
 	var player_pos = global_position
-	print("[Weapon] Creating hitbox: weapon_global_pos=", global_position, " attack_range=", attack_range, " direction=", attack_direction)
 
 	# 设置位置（根据攻击方向）
 	hitbox.global_position = player_pos + Vector2(attack_range * attack_direction, 0)
-	print("[Weapon] Hitbox global_pos=", hitbox.global_position, " size=", shape.size, " collision_layer=", hitbox.collision_layer, " mask=", hitbox.collision_mask)
 
 	hitbox.add_child(collision_shape)
 	return hitbox
@@ -95,15 +86,11 @@ func _check_hits(hitbox: Area2D) -> Array:
 	var targets = []
 	var bodies = hitbox.get_overlapping_bodies()
 
-	print("[Weapon] Hitbox check: found ", bodies.size(), " bodies")
-
 	for body in bodies:
-		print("[Weapon] Body: ", body.name, " groups: ", body.get_groups())
 		if body.is_in_group("enemies"):
 			targets.append(body)
 			# 对敌人造成伤害，传递攻击方向
 			if body.has_method("take_damage"):
-				print("[Weapon] Dealing ", damage, " damage to ", body.name)
 				body.take_damage(damage, attack_direction)
 
 	return targets
