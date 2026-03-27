@@ -71,7 +71,8 @@ func _create_hitbox() -> Area2D:
 	collision_shape.name = "HitboxShape"
 	var shape = RectangleShape2D.new()
 
-	shape.size = Vector2(attack_range * 2, 20)
+	# 增加 hitbox 高度以覆盖更大的垂直范围
+	shape.size = Vector2(attack_range * 2, 60)
 	collision_shape.shape = shape
 
 	# 设置碰撞层和掩码
@@ -84,7 +85,7 @@ func _create_hitbox() -> Area2D:
 
 	# 设置位置（根据攻击方向）
 	hitbox.global_position = player_pos + Vector2(attack_range * attack_direction, 0)
-	print("[Weapon] Hitbox global_pos=", hitbox.global_position, " collision_layer=", hitbox.collision_layer, " mask=", hitbox.collision_mask)
+	print("[Weapon] Hitbox global_pos=", hitbox.global_position, " size=", shape.size, " collision_layer=", hitbox.collision_layer, " mask=", hitbox.collision_mask)
 
 	hitbox.add_child(collision_shape)
 	return hitbox

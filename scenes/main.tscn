@@ -46,10 +46,10 @@ spawn_interval = 2.0
 enemy_scenes = [ExtResource("7_monster")]
 
 [node name="SpawnPoint1" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-200, 0)
+position = Vector2(-200, 275)
 
 [node name="SpawnPoint2" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(200, 0)
+position = Vector2(200, 275)
 
 [node name="DeathZone" type="Area2D" parent="World"]
 position = Vector2(0, 500)
