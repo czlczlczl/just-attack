@@ -64,7 +64,7 @@ var separation_radius: float = 40.0
 var separation_force: Vector2 = Vector2.ZERO
 
 ## 视觉节点引用
-var enemy_visual: Node2D = null
+var enemy_visual: ColorRect = null
 
 ## 原始颜色（用于闪白后恢复）
 var original_color: Color = Color.WHITE
@@ -86,8 +86,8 @@ func _ready() -> void:
 		player = GameManager.player
 
 	# 获取视觉节点引用
-	enemy_visual = get_node_or_null("EnemyVisual")
-	if enemy_visual is ColorRect:
+	enemy_visual = get_node_or_null("EnemyVisual") as ColorRect
+	if enemy_visual:
 		original_color = enemy_visual.color
 
 	# 获取血条引用
@@ -319,13 +319,13 @@ func _exit_tree() -> void:
 
 ## 播放受击闪白效果
 func _flash_on_hit() -> void:
-	if enemy_visual and enemy_visual is ColorRect:
+	if enemy_visual:
 		is_flashing = true
 		flash_timer = 0.15  # 闪白持续 0.15 秒
-		(enemy_visual as ColorRect).color = Color.WHITE
+		enemy_visual.color = Color.WHITE
 
 ## 停止闪白，恢复原始颜色
 func _stop_flash() -> void:
 	is_flashing = false
-	if enemy_visual and enemy_visual is ColorRect:
-		(enemy_visual as ColorRect).color = original_color
+	if enemy_visual:
+		enemy_visual.color = original_color
