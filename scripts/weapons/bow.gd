@@ -18,6 +18,8 @@ func _init():
 	attack_cooldown = 0.8
 
 func _ready() -> void:
+	super._ready()
+
 	animation_player = get_node_or_null("AnimationPlayer")
 	if animation_player:
 		_create_swing_animation()

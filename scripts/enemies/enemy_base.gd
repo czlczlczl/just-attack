@@ -81,7 +81,7 @@ func _ready() -> void:
 	current_health = max_health
 	spawn_position = global_position
 
-	print("[Enemy] Spawned at ", global_position)
+	print("[Enemy] Spawned at ", global_position, " layer=", collision_layer, " mask=", collision_mask)
 
 	# 获取玩家引用
 	if GameManager.player:
@@ -121,6 +121,7 @@ func _physics_process(delta: float) -> void:
 	# 更新无敌时间
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
+		# print("[Enemy] Invincibility timer: ", invincibility_timer)
 
 	# 更新闪白效果
 	if is_flashing:

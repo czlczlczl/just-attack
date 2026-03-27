@@ -15,6 +15,9 @@ func _init():
 	attack_cooldown = 0.3
 
 func _ready() -> void:
+	# 调用父类 _ready 以启用 process
+	super._ready()
+
 	# 获取或创建动画播放器
 	animation_player = get_node_or_null("AnimationPlayer")
 	if animation_player:
