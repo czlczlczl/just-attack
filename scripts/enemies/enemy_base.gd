@@ -63,6 +63,18 @@ var separation_radius: float = 40.0
 ## 敌人分离力
 var separation_force: Vector2 = Vector2.ZERO
 
+## 视觉节点引用
+var enemy_visual: Node2D = null
+
+## 原始颜色（用于闪白后恢复）
+var original_color: Color = Color.WHITE
+
+## 闪白计时器
+var flash_timer: float = 0.0
+
+## 闪白是否在进行
+var is_flashing: bool = false
+
 func _ready() -> void:
 	add_to_group("enemies")
 	max_health = stats.max_health if stats else 50
@@ -72,6 +84,11 @@ func _ready() -> void:
 	# 获取玩家引用
 	if GameManager.player:
 		player = GameManager.player
+
+	# 获取视觉节点引用
+	enemy_visual = get_node_or_null("EnemyVisual")
+	if enemy_visual is ColorRect:
+		original_color = enemy_visual.color
 
 	# 获取血条引用
 	health_bar = get_node_or_null("HealthBar")
@@ -100,6 +117,12 @@ func _physics_process(delta: float) -> void:
 	# 更新无敌时间
 	if invincibility_timer > 0:
 		invincibility_timer -= delta
+
+	# 更新闪白效果
+	if is_flashing:
+		flash_timer -= delta
+		if flash_timer <= 0:
+			_stop_flash()
 
 	# 更新血条隐藏计时器
 	if health_bar and health_bar.visible:
@@ -248,6 +271,9 @@ func take_damage(amount: int, hit_direction: int = 0) -> void:
 	if hit_direction != 0:
 		knockback_velocity = Vector2(-hit_direction * 300, -150)
 
+	# 播放受击闪白效果
+	_flash_on_hit()
+
 	AudioManager.play_hurt_sound()
 
 	if current_health <= 0:
@@ -290,3 +316,16 @@ func set_patrol_points(points: Array[Vector2]) -> void:
 func _exit_tree() -> void:
 	# 清理资源
 	patrol_points.clear()
+
+## 播放受击闪白效果
+func _flash_on_hit() -> void:
+	if enemy_visual and enemy_visual is ColorRect:
+		is_flashing = true
+		flash_timer = 0.15  # 闪白持续 0.15 秒
+		(enemy_visual as ColorRect).color = Color.WHITE
+
+## 停止闪白，恢复原始颜色
+func _stop_flash() -> void:
+	is_flashing = false
+	if enemy_visual and enemy_visual is ColorRect:
+		(enemy_visual as ColorRect).color = original_color

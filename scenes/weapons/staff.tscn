@@ -11,3 +11,26 @@ offset_top = -16.0
 offset_right = 4.0
 offset_bottom = 16.0
 color = Color(0.5, 0.3, 0.1, 1.0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+animations = [{
+"blend_times": [],
+"length": 0.25,
+"loop_mode": false,
+"name": "swing",
+"step": 0.1,
+"tracks": [{
+"channel": "continuous",
+"imported": [],
+"inserted_keys": {
+"rotation": [[0.0, -0.6, "Linear"], [0.125, 0.9, "Linear"], [0.25, 0.0, "Linear"]]
+},
+"loop_wrap": true,
+"paths": {
+"node": "../StaffVisual",
+"property": "rotation"
+},
+"type": "value",
+"uid_path": ""
+}]
+}]
