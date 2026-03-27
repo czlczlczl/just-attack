@@ -30,10 +30,8 @@ func _create_swing_animation() -> void:
 	var anim = Animation.new()
 	anim.length = 0.15
 
-	# 获取 SwordVisual 节点
-	var visual_path = get_path_to("SwordVisual")
-	if visual_path.is_empty():
-		visual_path = "../SwordVisual"
+	# 获取 SwordVisual 节点路径
+	var visual_path = "SwordVisual"
 
 	# 添加旋转轨道
 	var track_index = anim.add_track(Animation.TYPE_VALUE)

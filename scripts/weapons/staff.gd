@@ -24,10 +24,8 @@ func _create_swing_animation() -> void:
 	var anim = Animation.new()
 	anim.length = 0.25
 
-	# 获取 StaffVisual 节点
-	var visual_path = get_path_to("StaffVisual")
-	if visual_path.is_empty():
-		visual_path = "../StaffVisual"
+	# 获取 StaffVisual 节点路径
+	var visual_path = "StaffVisual"
 
 	# 添加旋转轨道
 	var track_index = anim.add_track(Animation.TYPE_VALUE)

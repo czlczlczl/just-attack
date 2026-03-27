@@ -30,10 +30,8 @@ func _create_swing_animation() -> void:
 	var anim = Animation.new()
 	anim.length = 0.2
 
-	# 获取 BowVisual 节点
-	var visual_path = get_path_to("BowVisual")
-	if visual_path.is_empty():
-		visual_path = "../BowVisual"
+	# 获取 BowVisual 节点路径
+	var visual_path = "BowVisual"
 
 	# 添加旋转轨道
 	var track_index = anim.add_track(Animation.TYPE_VALUE)
