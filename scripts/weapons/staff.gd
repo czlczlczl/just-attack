@@ -39,14 +39,19 @@ func _create_swing_animation() -> void:
 	# 获取 StaffVisual 节点路径
 	var visual_path = "StaffVisual"
 
-	# 添加旋转轨道
+	# 添加旋转轨道 - 使用 transform
 	var track_index = anim.add_track(Animation.TYPE_VALUE)
-	anim.track_set_path(track_index, visual_path + ":rotation")
+	anim.track_set_path(track_index, visual_path + ":transform")
 
 	# 添加关键帧
-	anim.track_insert_key(track_index, 0.0, -0.6)   # 后拉
-	anim.track_insert_key(track_index, 0.125, 0.9)  # 挥动
-	anim.track_insert_key(track_index, 0.25, 0.0)   # 归位
+	var start_transform = Transform2D(0, Vector2.ZERO)
+	var back_transform = Transform2D(-0.6, Vector2.ZERO)
+	var swing_transform = Transform2D(0.9, Vector2.ZERO)
+	var end_transform = Transform2D(0, Vector2.ZERO)
+
+	anim.track_insert_key(track_index, 0.0, back_transform)
+	anim.track_insert_key(track_index, 0.125, swing_transform)
+	anim.track_insert_key(track_index, 0.25, end_transform)
 
 	# 添加动画到库
 	anim_library.add_animation("swing", anim)

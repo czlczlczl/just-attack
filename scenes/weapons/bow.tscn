@@ -7,7 +7,9 @@
 script = ExtResource("2_bow")
 projectile_scene = ExtResource("1_projectile")
 
-[node name="BowVisual" type="ColorRect" parent="."]
+[node name="BowVisual" type="Node2D" parent="."]
+
+[node name="Body" type="ColorRect" parent="BowVisual"]
 offset_left = -8.0
 offset_top = -12.0
 offset_right = 8.0

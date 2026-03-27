@@ -45,14 +45,19 @@ func _create_swing_animation() -> void:
 	# 获取 BowVisual 节点路径
 	var visual_path = "BowVisual"
 
-	# 添加旋转轨道
+	# 添加旋转轨道 - 使用 transform
 	var track_index = anim.add_track(Animation.TYPE_VALUE)
-	anim.track_set_path(track_index, visual_path + ":rotation")
+	anim.track_set_path(track_index, visual_path + ":transform")
 
 	# 添加关键帧
-	anim.track_insert_key(track_index, 0.0, -0.3)   # 后拉
-	anim.track_insert_key(track_index, 0.1, 0.4)    # 挥动
-	anim.track_insert_key(track_index, 0.2, 0.0)    # 归位
+	var start_transform = Transform2D(0, Vector2.ZERO)
+	var back_transform = Transform2D(-0.3, Vector2.ZERO)
+	var swing_transform = Transform2D(0.4, Vector2.ZERO)
+	var end_transform = Transform2D(0, Vector2.ZERO)
+
+	anim.track_insert_key(track_index, 0.0, back_transform)
+	anim.track_insert_key(track_index, 0.1, swing_transform)
+	anim.track_insert_key(track_index, 0.2, end_transform)
 
 	# 添加动画到库
 	anim_library.add_animation("swing", anim)

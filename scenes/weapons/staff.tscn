@@ -5,7 +5,9 @@
 [node name="Staff" type="Node2D"]
 script = ExtResource("1_staff")
 
-[node name="StaffVisual" type="ColorRect" parent="."]
+[node name="StaffVisual" type="Node2D" parent="."]
+
+[node name="Shaft" type="ColorRect" parent="StaffVisual"]
 offset_left = -4.0
 offset_top = -16.0
 offset_right = 4.0

@@ -45,15 +45,21 @@ func _create_swing_animation() -> void:
 	# 获取 SwordVisual 节点路径
 	var visual_path = "SwordVisual"
 
-	# 添加旋转轨道
+	# 添加旋转轨道 - 在 Godot 4.x 中使用 transform/rotation
 	var track_index = anim.add_track(Animation.TYPE_VALUE)
-	anim.track_set_path(track_index, visual_path + ":rotation")
+	anim.track_set_path(track_index, visual_path + ":transform")
 
-	# 添加关键帧：起始 - 挥动 - 回正
-	anim.track_insert_key(track_index, 0.0, -0.5236)  # -30 度
-	anim.track_insert_key(track_index, 0.05, 0.7854)  # 45 度
-	anim.track_insert_key(track_index, 0.1, -0.2618)  # -15 度
-	anim.track_insert_key(track_index, 0.15, 0.0)     # 0 度（归位）
+	# 添加关键帧：起始 - 挥动 - 回正（使用 Transform2D 旋转）
+	var start_transform = Transform2D(0, Vector2.ZERO)
+	var swing1_transform = Transform2D(-0.5236, Vector2.ZERO)  # -30 度
+	var swing2_transform = Transform2D(0.7854, Vector2.ZERO)   # 45 度
+	var swing3_transform = Transform2D(-0.2618, Vector2.ZERO)  # -15 度
+	var end_transform = Transform2D(0, Vector2.ZERO)           # 0 度（归位）
+
+	anim.track_insert_key(track_index, 0.0, start_transform)
+	anim.track_insert_key(track_index, 0.05, swing2_transform)
+	anim.track_insert_key(track_index, 0.1, swing3_transform)
+	anim.track_insert_key(track_index, 0.15, end_transform)
 
 	# 添加动画到库
 	anim_library.add_animation("swing", anim)
