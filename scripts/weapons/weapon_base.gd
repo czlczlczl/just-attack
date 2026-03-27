@@ -34,10 +34,7 @@ func _process(delta: float) -> void:
 
 ## 执行攻击
 func attack(direction: int) -> void:
-	print("[Weapon] attack() called on ", weapon_name, " direction=", direction)
-
 	if is_cooldown:
-		print("[Weapon] Attack on cooldown, skipping")
 		return
 
 	attack_direction = direction
@@ -48,13 +45,9 @@ func attack(direction: int) -> void:
 	var hitbox = _create_hitbox()
 	get_tree().current_scene.add_child(hitbox)
 
-	print("[Weapon] Hitbox created at ", hitbox.global_position, " size=", attack_range * 2)
-
 	# 等待一帧让物理引擎检测碰撞
 	await get_tree().process_frame
-
 	var targets = _check_hits(hitbox)
-	print("[Weapon] Attack completed, hit ", targets.size(), " targets")
 	attack_hit.emit(targets)
 
 	# 清理命中框
@@ -77,11 +70,9 @@ func _create_hitbox() -> Area2D:
 
 	# 获取玩家（武器的父节点）的全局位置
 	var player_pos = global_position
-	print("[Weapon] Creating hitbox, weapon global_pos=", global_position, " player_pos=", player_pos)
 
 	# 设置位置（根据攻击方向）
 	hitbox.global_position = player_pos + Vector2(attack_range * attack_direction, 0)
-	print("[Weapon] Hitbox global_pos=", hitbox.global_position)
 
 	hitbox.add_child(collision_shape)
 	return hitbox
@@ -91,15 +82,11 @@ func _check_hits(hitbox: Area2D) -> Array:
 	var targets = []
 	var bodies = hitbox.get_overlapping_bodies()
 
-	print("[Weapon] Checking hits, found ", bodies.size(), " overlapping bodies")
-
 	for body in bodies:
-		print("[Weapon] Overlapping body: ", body.name, " groups=", body.get_groups())
 		if body.is_in_group("enemies"):
 			targets.append(body)
 			# 对敌人造成伤害，传递攻击方向
 			if body.has_method("take_damage"):
-				print("[Weapon] Dealing ", damage, " damage to ", body.name)
 				body.take_damage(damage, attack_direction)
 
 	return targets

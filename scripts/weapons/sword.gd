@@ -68,20 +68,15 @@ func _on_animation_finished() -> void:
 	is_attacking = false
 
 func attack(direction: int) -> void:
-	print("[Sword] attack() called, is_attacking=", is_attacking)
 	if is_attacking:
-		print("[Sword] Already attacking, skipping")
 		return
 
 	is_attacking = true
-	print("[Sword] Calling super.attack()")
 	super.attack(direction)
 
 	# 播放挥舞动画
 	if animation_player and animation_player.get_animation_list().size() > 0:
-		print("[Sword] Playing swing animation")
 		animation_player.play("swing")
 	else:
-		print("[Sword] No animation available")
 		# 没有动画时，攻击完成后立即重置
 		is_attacking = false
