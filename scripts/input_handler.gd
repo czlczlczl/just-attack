@@ -32,6 +32,9 @@ signal pause_pressed
 ## 信号：切换帮助面板
 signal toggle_help_pressed
 
+## 信号：按键按下（用于调试显示）
+signal key_pressed(key_name: String)
+
 ## 手柄震动强度 (0-1)
 var controller_vibration: float = 0.0
 
@@ -49,6 +52,13 @@ func _input(event: InputEvent) -> void:
 
 func _handle_keyboard_input(event: InputEventKey) -> void:
 	var prev_x: float = move_direction.x
+
+	# emit key pressed signal for debugging
+	if event.pressed:
+		var key_name = OS.get_keycode_string(event.keycode)
+		if key_name == "":
+			key_name = _get_key_name(event.physical_keycode)
+		key_pressed.emit(key_name)
 
 	match event.physical_keycode:
 		KEY_A, KEY_LEFT:
@@ -132,3 +142,36 @@ func get_normalized_move() -> Vector2:
 ## 触发手柄震动
 func trigger_vibration(weak_magnitude: float, strong_magnitude: float, duration: float) -> void:
 	Input.start_joy_vibration(0, weak_magnitude, strong_magnitude, duration)
+
+## 获取按键名称
+func _get_key_name(physical_keycode: Key) -> String:
+	match physical_keycode:
+		KEY_A: return "A"
+		KEY_B: return "B"
+		KEY_C: return "C"
+		KEY_D: return "D"
+		KEY_E: return "E"
+		KEY_F: return "F"
+		KEY_G: return "G"
+		KEY_H: return "H"
+		KEY_I: return "I"
+		KEY_J: return "J"
+		KEY_K: return "K"
+		KEY_L: return "L"
+		KEY_M: return "M"
+		KEY_N: return "N"
+		KEY_O: return "O"
+		KEY_P: return "P"
+		KEY_Q: return "Q"
+		KEY_R: return "R"
+		KEY_S: return "S"
+		KEY_T: return "T"
+		KEY_U: return "U"
+		KEY_V: return "V"
+		KEY_W: return "W"
+		KEY_X: return "X"
+		KEY_Y: return "Y"
+		KEY_Z: return "Z"
+		KEY_SPACE: return "SPACE"
+		KEY_ESCAPE: return "ESC"
+	return ""

@@ -13,6 +13,33 @@ func _init():
 
 func _ready() -> void:
 	animation_player = get_node_or_null("AnimationPlayer")
+	if animation_player:
+		_create_swing_animation()
+
+func _create_swing_animation() -> void:
+	if not animation_player:
+		return
+
+	# 创建动画
+	var anim = Animation.new()
+	anim.length = 0.25
+	anim.loop_mode = Animation.LOOP_MODE_NONE
+
+	# 获取 StaffVisual 节点
+	var visual_path = get_path_to("StaffVisual")
+	if visual_path.is_empty():
+		visual_path = "../StaffVisual"
+
+	# 添加旋转轨道
+	var track_index = anim.add_track(Animation.TYPE_VALUE)
+	anim.track_set_path(track_index, visual_path + ":rotation")
+
+	# 添加关键帧
+	anim.track_insert_key(track_index, 0.0, -0.6)   # 后拉
+	anim.track_insert_key(track_index, 0.125, 0.9)  # 挥动
+	anim.track_insert_key(track_index, 0.25, 0.0)   # 归位
+
+	animation_player.add_animation("swing", anim)
 
 func attack(direction: int) -> void:
 	if is_cooldown:

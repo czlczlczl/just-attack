@@ -6,6 +6,13 @@ extends CanvasLayer
 @onready var score_label: Label = $ScoreLabel
 @onready var help_button: Button = $HelpButton
 @onready var controls_overlay: PanelContainer = $ControlsOverlay
+@onready var key_display: Label = $KeyDisplay
+
+## 按键显示计时器
+var key_display_timer: float = 0.0
+
+## 当前显示的按键
+var current_key: String = ""
 
 func _ready() -> void:
 	# 连接 GameManager 信号
@@ -26,6 +33,30 @@ func _ready() -> void:
 
 	# 连接 H 键切换帮助面板
 	InputHandler.toggle_help_pressed.connect(_on_toggle_help)
+
+	# 连接按键显示
+	InputHandler.key_pressed.connect(_on_key_pressed)
+
+	# 初始化按键显示
+	if key_display:
+		key_display.visible = false
+		key_display.position = Vector2(20, 680)  # 左下角
+		key_display.size = Vector2(300, 40)
+
+func _process(delta: float) -> void:
+	# 处理按键显示计时器
+	if key_display_timer > 0:
+		key_display_timer -= delta
+		if key_display_timer <= 0:
+			key_display.visible = false
+			current_key = ""
+
+func _on_key_pressed(key_name: String) -> void:
+	if key_display:
+		current_key = key_name
+		key_display.text = "按键：" + key_name
+		key_display.visible = true
+		key_display_timer = 0.5  # 显示 0.5 秒
 
 func _on_health_changed(new_health: int) -> void:
 	health_bar.value = new_health

@@ -93,6 +93,14 @@ offset_right = 1260.0
 offset_bottom = 90.0
 text = "? 帮助"
 
+[node name="KeyDisplay" type="Label" parent="UI"]
+offset_left = 20.0
+offset_top = 680.0
+offset_right = 320.0
+offset_bottom = 720.0
+text = "按键："
+visible = false
+
 [node name="ControlsOverlay" type="PanelContainer" parent="UI"]
 visible = false
 offset_left = 1050.0
