@@ -77,9 +77,11 @@ func _create_hitbox() -> Area2D:
 
 	# 获取玩家（武器的父节点）的全局位置
 	var player_pos = global_position
+	print("[Weapon] Creating hitbox, weapon global_pos=", global_position, " player_pos=", player_pos)
 
 	# 设置位置（根据攻击方向）
 	hitbox.global_position = player_pos + Vector2(attack_range * attack_direction, 0)
+	print("[Weapon] Hitbox global_pos=", hitbox.global_position)
 
 	hitbox.add_child(collision_shape)
 	return hitbox
