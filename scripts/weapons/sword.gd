@@ -17,7 +17,6 @@ func _init():
 func _ready() -> void:
 	# 调用父类 _ready 以启用 process
 	super._ready()
-
 	# 获取或创建动画播放器
 	animation_player = get_node_or_null("AnimationPlayer")
 	if animation_player:
@@ -54,10 +53,10 @@ func _create_swing_animation() -> void:
 
 	# 添加关键帧：起始 - 挥动 - 回正（使用 Transform2D 旋转）
 	var start_transform = Transform2D(0, Vector2.ZERO)
-	var swing1_transform = Transform2D(-0.5236, Vector2.ZERO)  # -30 度
-	var swing2_transform = Transform2D(0.7854, Vector2.ZERO)   # 45 度
-	var swing3_transform = Transform2D(-0.2618, Vector2.ZERO)  # -15 度
-	var end_transform = Transform2D(0, Vector2.ZERO)           # 0 度（归位）
+	var swing1_transform = Transform2D(-0.5236, Vector2.ZERO)
+	var swing2_transform = Transform2D(0.7854, Vector2.ZERO)
+	var swing3_transform = Transform2D(-0.2618, Vector2.ZERO)
+	var end_transform = Transform2D(0, Vector2.ZERO)
 
 	anim.track_insert_key(track_index, 0.0, start_transform)
 	anim.track_insert_key(track_index, 0.05, swing2_transform)
@@ -68,43 +67,18 @@ func _create_swing_animation() -> void:
 	anim_library.add_animation("swing", anim)
 
 func _on_animation_finished(anim_name: StringName) -> void:
-	print("[Sword] Animation finished: ", anim_name, " is_attacking was ", is_attacking)
 	if anim_name == &"swing":
-		print("[Sword] Resetting is_attacking to false")
 		is_attacking = false
+		print("[Sword] Animation finished")
 
 func attack(direction: int) -> void:
 	if is_attacking:
-		print("[Sword] Already attacking, skipping. is_attacking=", is_attacking)
+		print("[Sword] Already attacking, skipping")
 		return
 
 	is_attacking = true
-	print("[Sword] Attack started, direction=", direction, " resetting is_attacking to true")
+	super.attack(direction)
 
-	# 播放挥舞动画 - 确保从头开始
+	# 播放挥舞动画
 	if animation_player and animation_player.get_animation_list().size() > 0:
-		print("[Sword] Playing swing animation")
-		animation_player.stop()
 		animation_player.play("swing")
-
-	# 等待动画进行到一半再创建命中框
-	await get_tree().create_timer(0.08).timeout
-	print("[Sword] Creating hitbox after delay")
-
-	# 创建命中框
-	var hitbox = _create_hitbox()
-	get_tree().current_scene.add_child(hitbox)
-
-	# 等待一帧让物理引擎检测碰撞
-	await get_tree().process_frame
-
-	var targets = _check_hits(hitbox)
-	print("[Sword] Hit ", targets.size(), " targets")
-
-	# 清理命中框
-	hitbox.queue_free()
-
-	# 如果动画还没完成，等待它完成
-	if animation_player and animation_player.is_playing():
-		await animation_player.animation_finished
-		print("[Sword] Animation completed")
