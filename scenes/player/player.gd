@@ -139,8 +139,9 @@ func _equip_weapon(weapon: Node2D) -> void:
 	current_weapon = weapon
 	add_child(current_weapon)
 
-	# 设置武器位置（根据面向方向调整）
+	# 设置武器位置和翻转（根据面向方向调整）
 	current_weapon.position = Vector2(32 * facing_direction, 0)
+	current_weapon.scale = Vector2(facing_direction, 1)
 
 	weapon_changed.emit(weapon.weapon_name if weapon.has_method("get_weapon_name") else "Unknown")
 
@@ -173,6 +174,7 @@ func _update_animation_state() -> void:
 func _update_weapon_position() -> void:
 	if current_weapon and current_weapon.is_inside_tree():
 		current_weapon.position = Vector2(32 * facing_direction, 0)
+		current_weapon.scale = Vector2(facing_direction, 1)
 		# 如果武器有方向属性，也更新它
 		if current_weapon.has_method("set_attack_direction"):
 			current_weapon.set_attack_direction(facing_direction)
