@@ -76,11 +76,23 @@ func attack(direction: int) -> void:
 		return
 
 	is_attacking = true
-	super.attack(direction)
 
 	# 播放挥舞动画
 	if animation_player and animation_player.get_animation_list().size() > 0:
 		animation_player.play("swing")
-	else:
-		# 没有动画时，攻击完成后立即重置
-		is_attacking = false
+
+	# 等待动画进行到一半再创建命中框
+	await get_tree().create_timer(0.08).timeout
+
+	# 创建命中框
+	var hitbox = _create_hitbox()
+	get_tree().current_scene.add_child(hitbox)
+
+	# 等待一帧让物理引擎检测碰撞
+	await get_tree().process_frame
+
+	var targets = _check_hits(hitbox)
+	attack_hit.emit(targets)
+
+	# 清理命中框
+	hitbox.queue_free()
