@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bs2tn5bydjdxm"]
+[gd_scene load_steps=12 format=3 uid="uid://bs2tn5bydjdxm"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://t3du4uam21j6" path="res://scripts/camera_controller.gd" id="2_camera"]
@@ -55,7 +55,7 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 320, 320)
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="World"]
 position = Vector2(0, -50)

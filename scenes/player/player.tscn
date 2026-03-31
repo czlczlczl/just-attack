@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://player_scene"]
+[gd_scene load_steps=20 format=3 uid="uid://player_scene"]
 
 [ext_resource type="Script" path="res://scripts/resources/player_stats.gd" id="1_stats"]
 [ext_resource type="Resource" path="res://resources/player_stats.tres" id="3_stats_config"]
