@@ -160,6 +160,7 @@ position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_enemy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+offset = Vector2(0, -40)
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_enemy")
 animation = &"Idle"

@@ -143,6 +143,7 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+offset = Vector2(0, -16)
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_player")
 animation = &"Idle"
