@@ -1,11 +1,90 @@
-[gd_scene load_steps=3 format=3 uid="uid://player_scene"]
+[gd_scene load_steps=23 format=3 uid="uid://player_scene"]
 
 [ext_resource type="Script" path="res://scripts/resources/player_stats.gd" id="1_stats"]
 [ext_resource type="Resource" path="res://resources/player_stats.tres" id="3_stats_config"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="2_player"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-1.png" id="idle1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-2.png" id="idle2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-3.png" id="idle3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-4.png" id="idle4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-1.png" id="run1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-2.png" id="run2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-3.png" id="run3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-4.png" id="run4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-5.png" id="run5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-6.png" id="run6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/jump/player-jump-1.png" id="jump1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/jump/player-jump-2.png" id="jump2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/hurt/player-hurt-1.png" id="hurt1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/hurt/player-hurt-2.png" id="hurt2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
 size = Vector2(32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_player"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("idle1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("idle2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("idle3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("idle4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("run1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("run2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("run3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("run4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("run5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("run6")
+}],
+"loop": true,
+"name": &"Run",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("jump1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("jump2")
+}],
+"loop": false,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("hurt1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("hurt2")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 5.0
+}]
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 1
@@ -16,12 +95,10 @@ stats = ExtResource("3_stats_config")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_player")
 
-[node name="PlayerVisual" type="ColorRect" parent="."]
-offset_left = -16.0
-offset_top = -24.0
-offset_right = 16.0
-offset_bottom = 24.0
-color = Color(0.2, 0.6, 1.0, 1.0)
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_player")
+animation = &"Idle"
 
 [node name="WeaponPivot" type="Node2D" parent="."]
 position = Vector2(32, 0)

@@ -64,10 +64,7 @@ var separation_radius: float = 40.0
 var separation_force: Vector2 = Vector2.ZERO
 
 ## 视觉节点引用
-var enemy_visual: ColorRect = null
-
-## 原始颜色（用于闪白后恢复）
-var original_color: Color = Color.WHITE
+var enemy_sprite: AnimatedSprite2D = null
 
 ## 闪白计时器
 var flash_timer: float = 0.0
@@ -86,9 +83,7 @@ func _ready() -> void:
 		player = GameManager.player
 
 	# 获取视觉节点引用
-	enemy_visual = get_node_or_null("EnemyVisual") as ColorRect
-	if enemy_visual:
-		original_color = enemy_visual.color
+	enemy_sprite = get_node_or_null("AnimatedSprite2D")
 
 	# 获取血条引用
 	health_bar = get_node_or_null("HealthBar")
@@ -150,6 +145,9 @@ func _physics_process(delta: float) -> void:
 
 	# 应用移动
 	move_and_slide()
+
+	# 更新动画
+	_update_animation()
 
 ## 应用敌人之间的分离力
 func _apply_separation(delta: float) -> void:
@@ -320,13 +318,25 @@ func _exit_tree() -> void:
 
 ## 播放受击闪白效果
 func _flash_on_hit() -> void:
-	if enemy_visual:
+	if enemy_sprite:
 		is_flashing = true
 		flash_timer = 0.15  # 闪白持续 0.15 秒
-		enemy_visual.color = Color.WHITE
+		enemy_sprite.modulate = Color.WHITE
 
 ## 停止闪白，恢复原始颜色
 func _stop_flash() -> void:
 	is_flashing = false
-	if enemy_visual:
-		enemy_visual.color = original_color
+	if enemy_sprite:
+		enemy_sprite.modulate = Color.WHITE
+
+## 更新动画状态
+func _update_animation() -> void:
+	if not enemy_sprite:
+		return
+	enemy_sprite.flip_h = facing_direction == -1
+	if velocity.x != 0:
+		if enemy_sprite.animation != &"Jump":
+			enemy_sprite.play("Jump")
+	else:
+		if enemy_sprite.animation != &"Idle":
+			enemy_sprite.play("Idle")

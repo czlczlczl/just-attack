@@ -167,8 +167,26 @@ func add_weapon(weapon: Node2D) -> void:
 
 ## 更新动画状态
 func _update_animation_state() -> void:
-	# 后续添加 AnimationPlayer 后实现
-	pass
+	var sprite = get_node_or_null("AnimatedSprite2D")
+	if not sprite:
+		return
+
+	# 翻转精灵
+	sprite.flip_h = facing_direction == -1
+
+	# 根据状态选择动画
+	if invincibility_timer > 0:
+		if sprite.animation != &"Hurt":
+			sprite.play("Hurt")
+	elif not is_on_ground:
+		if sprite.animation != &"Jump":
+			sprite.play("Jump")
+	elif move_direction != 0:
+		if sprite.animation != &"Run":
+			sprite.play("Run")
+	else:
+		if sprite.animation != &"Idle":
+			sprite.play("Idle")
 
 ## 更新武器位置
 func _update_weapon_position() -> void:
