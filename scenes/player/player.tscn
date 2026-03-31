@@ -1,40 +1,86 @@
-[gd_scene load_steps=20 format=3 uid="uid://player_scene"]
+[gd_scene load_steps=24 format=3 uid="uid://player_scene"]
 
 [ext_resource type="Script" path="res://scripts/resources/player_stats.gd" id="1_stats"]
 [ext_resource type="Resource" path="res://resources/player_stats.tres" id="3_stats_config"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="2_player"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-1.png" id="idle1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-2.png" id="idle2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-3.png" id="idle3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/idle/player-idle-4.png" id="idle4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-1.png" id="run1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-2.png" id="run2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-3.png" id="run3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-4.png" id="run4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-5.png" id="run5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/run/player-run-6.png" id="run6"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/jump/player-jump-1.png" id="jump1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/jump/player-jump-2.png" id="jump2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/hurt/player-hurt-1.png" id="hurt1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/player/hurt/player-hurt-2.png" id="hurt2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/knight/knight-idle.png" id="idle_sheet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/knight/knight-run.png" id="run_sheet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/knight/knight-jump.png" id="jump_sheet"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/knight/knight-hurt.png" id="hurt_sheet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_player"]
-size = Vector2(32, 48)
+size = Vector2(28, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle1"]
+atlas = ExtResource("idle_sheet")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle2"]
+atlas = ExtResource("idle_sheet")
+region = Rect2(128, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle3"]
+atlas = ExtResource("idle_sheet")
+region = Rect2(0, 64, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle4"]
+atlas = ExtResource("idle_sheet")
+region = Rect2(128, 64, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run1"]
+atlas = ExtResource("run_sheet")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run2"]
+atlas = ExtResource("run_sheet")
+region = Rect2(128, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run3"]
+atlas = ExtResource("run_sheet")
+region = Rect2(0, 64, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run4"]
+atlas = ExtResource("run_sheet")
+region = Rect2(128, 64, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run5"]
+atlas = ExtResource("run_sheet")
+region = Rect2(0, 128, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run6"]
+atlas = ExtResource("run_sheet")
+region = Rect2(128, 128, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jump1"]
+atlas = ExtResource("jump_sheet")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jump2"]
+atlas = ExtResource("jump_sheet")
+region = Rect2(128, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurt1"]
+atlas = ExtResource("hurt_sheet")
+region = Rect2(0, 0, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hurt2"]
+atlas = ExtResource("hurt_sheet")
+region = Rect2(128, 0, 128, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_player"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("idle1")
+"texture": SubResource("AtlasTexture_idle1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("idle2")
+"texture": SubResource("AtlasTexture_idle2")
 }, {
 "duration": 1.0,
-"texture": ExtResource("idle3")
+"texture": SubResource("AtlasTexture_idle3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("idle4")
+"texture": SubResource("AtlasTexture_idle4")
 }],
 "loop": true,
 "name": &"Idle",
@@ -42,22 +88,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("run1")
+"texture": SubResource("AtlasTexture_run1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("run2")
+"texture": SubResource("AtlasTexture_run2")
 }, {
 "duration": 1.0,
-"texture": ExtResource("run3")
+"texture": SubResource("AtlasTexture_run3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("run4")
+"texture": SubResource("AtlasTexture_run4")
 }, {
 "duration": 1.0,
-"texture": ExtResource("run5")
+"texture": SubResource("AtlasTexture_run5")
 }, {
 "duration": 1.0,
-"texture": ExtResource("run6")
+"texture": SubResource("AtlasTexture_run6")
 }],
 "loop": true,
 "name": &"Run",
@@ -65,10 +111,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("jump1")
+"texture": SubResource("AtlasTexture_jump1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("jump2")
+"texture": SubResource("AtlasTexture_jump2")
 }],
 "loop": false,
 "name": &"Jump",
@@ -76,10 +122,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("hurt1")
+"texture": SubResource("AtlasTexture_hurt1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("hurt2")
+"texture": SubResource("AtlasTexture_hurt2")
 }],
 "loop": false,
 "name": &"Hurt",
@@ -93,6 +139,7 @@ script = ExtResource("2_player")
 stats = ExtResource("3_stats_config")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_player")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -108,4 +155,5 @@ collision_layer = 4
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_player")

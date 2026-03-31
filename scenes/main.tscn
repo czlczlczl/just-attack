@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bs2tn5bydjdxm"]
+[gd_scene load_steps=16 format=3 uid="uid://bs2tn5bydjdxm"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://t3du4uam21j6" path="res://scripts/camera_controller.gd" id="2_camera"]
@@ -7,9 +7,12 @@
 [ext_resource type="Script" uid="uid://bmwjifaf0troi" path="res://scripts/death_zone.gd" id="5_death"]
 [ext_resource type="Script" uid="uid://u1b40u52v4k4" path="res://scripts/controls_overlay.gd" id="6_controls"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/monster_01.tscn" id="7_monster"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/back.png" id="bg_back"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/middle.png" id="bg_middle"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/tileset.png" id="tileset"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer1.png" id="bg1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer2.png" id="bg2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer3a.png" id="bg3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer4.png" id="bg4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer5.png" id="bg5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/castle-tileset.png" id="tileset"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2000, 50)
@@ -21,39 +24,95 @@ size = Vector2(2000, 50)
 
 [node name="Background" type="ParallaxBackground" parent="."]
 
-[node name="BackLayer" type="ParallaxLayer" parent="Background"]
-motion_mirroring = Vector2(320, 0)
+[node name="Layer1" type="ParallaxLayer" parent="Background"]
+motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.1, 0.1)
+
+[node name="Sprite1" type="Sprite2D" parent="Background/Layer1"]
+texture = ExtResource("bg1")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Sprite1b" type="Sprite2D" parent="Background/Layer1"]
+texture = ExtResource("bg1")
+position = Vector2(426, 0)
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Layer2" type="ParallaxLayer" parent="Background"]
+motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.2, 0.2)
 
-[node name="BackSprite" type="Sprite2D" parent="Background/BackLayer"]
-texture = ExtResource("bg_back")
+[node name="Sprite2" type="Sprite2D" parent="Background/Layer2"]
+texture = ExtResource("bg2")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 320)
+region_rect = Rect2(0, 0, 426, 384)
 
-[node name="BackSprite2" type="Sprite2D" parent="Background/BackLayer"]
-texture = ExtResource("bg_back")
-position = Vector2(320, 0)
+[node name="Sprite2b" type="Sprite2D" parent="Background/Layer2"]
+texture = ExtResource("bg2")
+position = Vector2(426, 0)
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 320)
+region_rect = Rect2(0, 0, 426, 384)
 
-[node name="MiddleLayer" type="ParallaxLayer" parent="Background"]
-motion_mirroring = Vector2(320, 0)
-motion_scale = Vector2(0.5, 0.5)
+[node name="Layer3" type="ParallaxLayer" parent="Background"]
+motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.4, 0.4)
 
-[node name="MiddleSprite" type="Sprite2D" parent="Background/MiddleLayer"]
-texture = ExtResource("bg_middle")
+[node name="Sprite3" type="Sprite2D" parent="Background/Layer3"]
+texture = ExtResource("bg3")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 320)
+region_rect = Rect2(0, 0, 426, 384)
 
-[node name="MiddleSprite2" type="Sprite2D" parent="Background/MiddleLayer"]
-texture = ExtResource("bg_middle")
-position = Vector2(320, 0)
+[node name="Sprite3b" type="Sprite2D" parent="Background/Layer3"]
+texture = ExtResource("bg3")
+position = Vector2(426, 0)
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 320, 320)
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Layer4" type="ParallaxLayer" parent="Background"]
+motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.6, 0.6)
+
+[node name="Sprite4" type="Sprite2D" parent="Background/Layer4"]
+texture = ExtResource("bg4")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Sprite4b" type="Sprite2D" parent="Background/Layer4"]
+texture = ExtResource("bg4")
+position = Vector2(426, 0)
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Layer5" type="ParallaxLayer" parent="Background"]
+motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.8, 0.8)
+
+[node name="Sprite5" type="Sprite2D" parent="Background/Layer5"]
+texture = ExtResource("bg5")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
+
+[node name="Sprite5b" type="Sprite2D" parent="Background/Layer5"]
+texture = ExtResource("bg5")
+position = Vector2(426, 0)
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 426, 384)
 
 [node name="World" type="Node2D" parent="."]
 
@@ -67,10 +126,11 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="GroundVisual" type="Sprite2D" parent="World/Ground"]
+position = Vector2(0, -25)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 2000, 50)
+region_rect = Rect2(0, 0, 2000, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 shape = SubResource("RectangleShape2D_ground")

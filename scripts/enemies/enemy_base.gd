@@ -335,8 +335,8 @@ func _update_animation() -> void:
 		return
 	enemy_sprite.flip_h = facing_direction == -1
 	if velocity.x != 0:
-		if enemy_sprite.animation != &"Jump":
-			enemy_sprite.play("Jump")
+		if enemy_sprite.animation != &"Run":
+			enemy_sprite.play("Run")
 	else:
 		if enemy_sprite.animation != &"Idle":
 			enemy_sprite.play("Idle")

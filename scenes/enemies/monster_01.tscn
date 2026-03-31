@@ -1,47 +1,152 @@
-[gd_scene load_steps=12 format=3 uid="uid://monster01_scene"]
+[gd_scene load_steps=23 format=3 uid="uid://monster01_scene"]
 
 [ext_resource type="Script" path="res://scripts/enemies/enemy_base.gd" id="1_enemy"]
 [ext_resource type="Script" path="res://scripts/resources/enemy_stats.gd" id="2_stats"]
 [ext_resource type="Resource" path="res://resources/enemy_configs/monster_01.tres" id="3_config"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-1.png" id="frog1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-2.png" id="frog2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-3.png" id="frog3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-4.png" id="frog4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-jump-1.png" id="frogs1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-jump-2.png" id="frogs2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/necromancer/necromancer-sheet.png" id="necro_sheet"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_enemy"]
-size = Vector2(32, 32)
+size = Vector2(40, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle1"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(0, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle2"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(136, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle3"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(272, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle4"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(408, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle5"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(544, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle6"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(680, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle7"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(816, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idle8"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(952, 0, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run1"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(0, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run2"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(136, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run3"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(272, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run4"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(408, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run5"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(544, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run6"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(680, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run7"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(816, 128, 136, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_run8"]
+atlas = ExtResource("necro_sheet")
+region = Rect2(952, 128, 136, 128)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_enemy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("frog1")
+"texture": SubResource("AtlasTexture_idle1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("frog2")
+"texture": SubResource("AtlasTexture_idle2")
 }, {
 "duration": 1.0,
-"texture": ExtResource("frog3")
+"texture": SubResource("AtlasTexture_idle3")
 }, {
 "duration": 1.0,
-"texture": ExtResource("frog4")
+"texture": SubResource("AtlasTexture_idle4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle8")
 }],
 "loop": true,
 "name": &"Idle",
-"speed": 4.0
+"speed": 6.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("frogs1")
+"texture": SubResource("AtlasTexture_run1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("frogs2")
+"texture": SubResource("AtlasTexture_run2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_run8")
 }],
 "loop": true,
-"name": &"Jump",
-"speed": 6.0
+"name": &"Run",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle1")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idle1")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 5.0
 }]
 
 [node name="Monster01" type="CharacterBody2D"]
@@ -51,6 +156,7 @@ script = ExtResource("1_enemy")
 stats = ExtResource("3_config")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_enemy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -68,9 +174,9 @@ shape = SubResource("RectangleShape2D_enemy")
 [node name="HealthBar" type="ProgressBar" parent="."]
 visible = false
 offset_left = -25.0
-offset_top = -40.0
+offset_top = -60.0
 offset_right = 25.0
-offset_bottom = -30.0
+offset_bottom = -50.0
 max_value = 100.0
 value = 100.0
 show_percentage = false
