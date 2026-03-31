@@ -81,7 +81,7 @@ func try_spawn_enemy() -> void:
 			patrol_points.append(sp.global_position)
 		enemy.set_patrol_points(patrol_points)
 
-	get_tree().current_scene.add_child(enemy)
+	get_parent().add_child(enemy)
 	current_enemies.append(enemy)
 
 	AudioManager.play_spawn_sound()

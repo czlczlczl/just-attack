@@ -63,6 +63,19 @@ var separation_radius: float = 40.0
 ## 敌人分离力
 var separation_force: Vector2 = Vector2.ZERO
 
+## 最大追击距离（超过此距离放弃追击）
+var max_chase_distance: float = 400.0
+
+## 在原地等待的超时时间（超时后回到巡逻）
+var idle_wait_timer: float = 0.0
+var idle_wait_duration: float = 2.0
+
+## 原始巡逻点（生成时设置，不会改变）
+var original_patrol_points: Array[Vector2] = []
+
+## 本地巡逻范围
+var local_patrol_range: float = 150.0
+
 ## 视觉节点引用
 var enemy_sprite: AnimatedSprite2D = null
 
@@ -77,6 +90,7 @@ func _ready() -> void:
 	max_health = stats.max_health if stats else 50
 	current_health = max_health
 	spawn_position = global_position
+	max_chase_distance = stats.max_chase_distance if stats else 400.0
 
 	# 获取玩家引用
 	if GameManager.player:
@@ -91,6 +105,9 @@ func _ready() -> void:
 		health_bar.max_value = max_health
 		health_bar.value = current_health
 		health_bar.visible = false
+
+	# 备份原始巡逻点
+	original_patrol_points = patrol_points.duplicate()
 
 func _physics_process(delta: float) -> void:
 	if current_state == EnemyState.DEAD or current_state == EnemyState.STUNNED:
@@ -149,6 +166,16 @@ func _physics_process(delta: float) -> void:
 	# 更新动画
 	_update_animation()
 
+## 在当前位置附近生成本地巡逻点，避免走回原始巡逻点
+func _setup_local_patrol() -> void:
+	var pos = global_position
+	patrol_points = [
+		Vector2(pos.x - local_patrol_range, pos.y),
+		Vector2(pos.x + local_patrol_range, pos.y)
+	]
+	patrol_index = 0
+	current_state = EnemyState.PATROL
+
 ## 应用敌人之间的分离力
 func _apply_separation(delta: float) -> void:
 	var enemies = get_tree().get_nodes_in_group("enemies")
@@ -165,12 +192,23 @@ func _apply_separation(delta: float) -> void:
 
 	if count > 0:
 		separation /= count
+		separation.y = 0  # 只在水平方向分离，避免敌人被推离地面
 		velocity += separation * 500 * delta
 
 func _state_idle(_delta: float) -> void:
+	velocity.x = 0
+
 	# 检测玩家
 	if _can_see_player():
+		idle_wait_timer = 0.0
 		current_state = EnemyState.CHASE
+		return
+
+	# 等待超时后在当前位置附近巡逻（不回退到原始巡逻点）
+	idle_wait_timer += _delta
+	if idle_wait_timer >= idle_wait_duration:
+		idle_wait_timer = 0.0
+		_setup_local_patrol()
 
 func _state_patrol(delta: float) -> void:
 	if patrol_points.size() == 0:
@@ -195,7 +233,17 @@ func _state_patrol(delta: float) -> void:
 
 func _state_chase(delta: float) -> void:
 	if player == null or not player.is_inside_tree():
-		current_state = EnemyState.RETURN
+		current_state = EnemyState.IDLE
+		velocity.x = 0
+		return
+
+	var distance = global_position.distance_to(player.global_position)
+
+	# 超过最大追击距离，停在原地等待，不回退
+	if distance > max_chase_distance:
+		current_state = EnemyState.IDLE
+		velocity.x = 0
+		spawn_position = global_position
 		return
 
 	var direction = (player.global_position - global_position).normalized()
@@ -206,12 +254,13 @@ func _state_chase(delta: float) -> void:
 	velocity.x = direction.x * stats.move_speed
 
 	# 进入攻击范围
-	if global_position.distance_to(player.global_position) <= stats.attack_range:
+	if distance <= stats.attack_range:
 		current_state = EnemyState.ATTACK
 
 func _state_attack(_delta: float) -> void:
 	if player == null or not player.is_inside_tree():
-		current_state = EnemyState.RETURN
+		current_state = EnemyState.IDLE
+		velocity.x = 0
 		return
 
 	# 检查距离

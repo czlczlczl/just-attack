@@ -23,6 +23,7 @@ size = Vector2(2000, 50)
 [node name="Main" type="Node2D"]
 
 [node name="Background" type="ParallaxBackground" parent="."]
+layer = -1
 
 [node name="Layer1" type="ParallaxLayer" parent="Background"]
 motion_offset = Vector2(0, 84)

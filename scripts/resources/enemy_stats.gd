@@ -9,3 +9,4 @@ extends Resource
 @export var score_value: int = 100
 @export var detection_range: float = 150.0
 @export var attack_range: float = 40.0
+@export var max_chase_distance: float = 400.0
