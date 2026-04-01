@@ -11,8 +11,8 @@ extends EnemyBase
 ## 跳跃间隔（秒）
 @export var jump_interval: float = 1.5
 
-## 跳跃计时器
-var jump_timer: float = 0.0
+## 跳跃计时器（初始设为 jump_interval，避免出生就跳）
+var jump_timer: float = 1.5
 
 ## 是否在跳跃中（空中）
 var is_jumping: bool = false
@@ -153,6 +153,10 @@ func _state_attack(_delta: float) -> void:
 
 ## 重写 return 状态（史莱姆不巡逻，直接进入 idle）
 func _state_return(_delta: float) -> void:
+	current_state = EnemyState.IDLE
+
+## 重写 patrol 状态（史莱姆不巡逻，直接进入 idle）
+func _state_patrol(_delta: float) -> void:
 	current_state = EnemyState.IDLE
 
 ## 重写动画更新
