@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://rywx0rajx532" path="res://scripts/ui_controller.gd" id="4_ui"]
 [ext_resource type="Script" uid="uid://bmwjifaf0troi" path="res://scripts/death_zone.gd" id="5_death"]
 [ext_resource type="Script" uid="uid://u1b40u52v4k4" path="res://scripts/controls_overlay.gd" id="6_controls"]
-[ext_resource type="PackedScene" path="res://scenes/enemies/monster_01.tscn" id="7_monster"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="7_monster"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer1.png" id="bg1"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer2.png" id="bg2"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer3a.png" id="bg3"]
