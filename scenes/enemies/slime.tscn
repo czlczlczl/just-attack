@@ -1,0 +1,94 @@
+[gd_scene load_steps=12 format=3 uid="uid://slime_scene"]
+
+[ext_resource type="Script" path="res://scripts/enemies/slime.gd" id="1_slime"]
+[ext_resource type="Script" path="res://scripts/resources/enemy_stats.gd" id="2_stats"]
+[ext_resource type="Resource" path="res://resources/enemy_configs/slime.tres" id="3_config"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-1.png" id="frog_idle1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-2.png" id="frog_idle2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-3.png" id="frog_idle3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-idle-4.png" id="frog_idle4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-jump-1.png" id="frog_jump1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/frog/frog-jump-2.png" id="frog_jump2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slime"]
+size = Vector2(32, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_slime"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("frog_idle1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("frog_idle2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("frog_idle3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("frog_idle4")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("frog_jump1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("frog_jump2")
+}],
+"loop": true,
+"name": &"Jump",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("frog_idle1")
+}],
+"loop": false,
+"name": &"Hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("frog_idle1")
+}],
+"loop": false,
+"name": &"Death",
+"speed": 5.0
+}]
+
+[node name="Slime" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("1_slime")
+stats = ExtResource("3_config")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_slime")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+offset = Vector2(0, -16)
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_slime")
+animation = &"Idle"
+
+[node name="AttackBox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackBox"]
+shape = SubResource("RectangleShape2D_slime")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -20.0
+offset_top = -36.0
+offset_right = 20.0
+offset_bottom = -28.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
