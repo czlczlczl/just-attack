@@ -66,6 +66,8 @@ func _physics_process(delta: float) -> void:
 		match current_state:
 			EnemyState.IDLE:
 				_state_idle(delta)
+			EnemyState.PATROL:
+				_state_patrol(delta)
 			EnemyState.CHASE:
 				_state_chase(delta)
 			EnemyState.ATTACK:
@@ -94,6 +96,7 @@ func _physics_process(delta: float) -> void:
 func _perform_jump() -> void:
 	is_jumping = true
 	velocity.y = -jump_force
+	print("[Slime] Jump! state=", EnemyState.keys()[current_state], " player=", player, " pos=", global_position)
 
 	if current_state == EnemyState.CHASE and player != null and player.is_inside_tree():
 		# 追踪时朝玩家方向跳跃
@@ -108,10 +111,15 @@ func _perform_jump() -> void:
 ## 重写 idle 状态
 func _state_idle(_delta: float) -> void:
 	# 检测玩家 - 如果没有玩家引用，尝试重新获取
-	if player == null and GameManager.player:
-		player = GameManager.player
+	if player == null:
+		if GameManager.player:
+			player = GameManager.player
+			print("[Slime] Got player from GameManager: ", player)
+		else:
+			print("[Slime] GameManager.player is null!")
 	# 检测玩家
 	if _can_see_player():
+		print("[Slime] Player detected! Switching to CHASE")
 		current_state = EnemyState.CHASE
 		return
 
