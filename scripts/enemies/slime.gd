@@ -89,6 +89,9 @@ func _physics_process(delta: float) -> void:
 	# 应用移动
 	move_and_slide()
 
+	# 检测是否卡在玩家头顶，如果是则弹开
+	_check_stuck_on_player()
+
 	# 更新动画
 	_update_animation()
 
@@ -96,7 +99,6 @@ func _physics_process(delta: float) -> void:
 func _perform_jump() -> void:
 	is_jumping = true
 	velocity.y = -jump_force
-	print("[Slime] Jump! state=", EnemyState.keys()[current_state], " player=", player, " pos=", global_position)
 
 	if current_state == EnemyState.CHASE and player != null and player.is_inside_tree():
 		# 追踪时朝玩家方向跳跃
@@ -114,12 +116,8 @@ func _state_idle(_delta: float) -> void:
 	if player == null:
 		if GameManager.player:
 			player = GameManager.player
-			print("[Slime] Got player from GameManager: ", player)
-		else:
-			print("[Slime] GameManager.player is null!")
 	# 检测玩家
 	if _can_see_player():
-		print("[Slime] Player detected! Switching to CHASE")
 		current_state = EnemyState.CHASE
 		return
 
@@ -128,6 +126,11 @@ func _state_chase(_delta: float) -> void:
 	if player == null or not player.is_inside_tree():
 		current_state = EnemyState.IDLE
 		return
+
+	# 始终面向玩家
+	var dir = sign(player.global_position.x - global_position.x)
+	if dir != 0:
+		facing_direction = dir
 
 	var distance = global_position.distance_to(player.global_position)
 
@@ -185,3 +188,26 @@ func _update_animation() -> void:
 	else:
 		if enemy_sprite.animation != &"Idle":
 			enemy_sprite.play("Idle")
+
+## 检测是否卡在玩家头顶，如果是则弹开
+func _check_stuck_on_player() -> void:
+	if player == null or not player.is_inside_tree():
+		return
+	if not is_on_floor():
+		return
+
+	# 检查碰撞列表中是否有玩家，且法线朝上（说明在玩家头顶）
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider == player and collision.get_normal().y < -0.5:
+			# 弹开：朝远离玩家方向小跳
+			var push_dir = sign(global_position.x - player.global_position.x)
+			if push_dir == 0:
+				push_dir = 1
+			facing_direction = push_dir
+			velocity.y = -jump_force * 0.6
+			velocity.x = push_dir * jump_horizontal_speed
+			is_jumping = true
+			jump_timer = jump_interval
+			return
