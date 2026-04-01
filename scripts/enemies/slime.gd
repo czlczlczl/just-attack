@@ -177,7 +177,7 @@ func _state_patrol(_delta: float) -> void:
 func _update_animation() -> void:
 	if not enemy_sprite:
 		return
-	enemy_sprite.flip_h = facing_direction == -1
+	enemy_sprite.flip_h = facing_direction == 1
 
 	if current_state == EnemyState.DEAD:
 		if enemy_sprite.animation != &"Death":
