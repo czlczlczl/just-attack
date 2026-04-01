@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyStats" load_steps=2 format=3 uid="uid://slime_stats"]
+
+[ext_resource type="Script" path="res://scripts/resources/enemy_stats.gd" id="1_stats"]
+
+[resource]
+script = ExtResource("1_stats")
+max_health = 30
+damage = 8
+move_speed = 60.0
+attack_cooldown = 1.0
+score_value = 80
+detection_range = 200.0
+attack_range = 35.0
