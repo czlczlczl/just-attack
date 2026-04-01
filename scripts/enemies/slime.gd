@@ -107,6 +107,9 @@ func _perform_jump() -> void:
 
 ## 重写 idle 状态
 func _state_idle(_delta: float) -> void:
+	# 检测玩家 - 如果没有玩家引用，尝试重新获取
+	if player == null and GameManager.player:
+		player = GameManager.player
 	# 检测玩家
 	if _can_see_player():
 		current_state = EnemyState.CHASE
