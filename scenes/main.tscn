@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bs2tn5bydjdxm"]
+[gd_scene load_steps=29 format=3 uid="uid://bs2tn5bydjdxm"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://t3du4uam21j6" path="res://scripts/camera_controller.gd" id="2_camera"]
@@ -12,7 +12,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer3a.png" id="bg3"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer4.png" id="bg4"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer5.png" id="bg5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/castle-tileset.png" id="tileset"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/block-big.png" id="blockbig"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/platform-long.png" id="platlong"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-01.png" id="light1"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-02.png" id="light2"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-03.png" id="light3"]
@@ -54,96 +55,46 @@ layer = -1
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.02, 0.02)
 
-[node name="Sprite1" type="Sprite2D" parent="Background/Layer1"]
-texture = ExtResource("tileset")
+[node name="Sprite" type="Sprite2D" parent="Background/Layer1"]
+texture = ExtResource("bg1")
 centered = false
-region_enabled = true
-region_rect = Rect2(0, 400, 426, 384)
-modulate = Color(0.15, 0.12, 0.1, 1)
-
-[node name="Sprite1b" type="Sprite2D" parent="Background/Layer1"]
-texture = ExtResource("tileset")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(426, 400, 426, 384)
-modulate = Color(0.15, 0.12, 0.1, 1)
+modulate = Color(0.1, 0.08, 0.07, 1)
 
 [node name="Layer2" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.05, 0.05)
 
-[node name="Sprite2" type="Sprite2D" parent="Background/Layer2"]
-texture = ExtResource("tileset")
+[node name="Sprite" type="Sprite2D" parent="Background/Layer2"]
+texture = ExtResource("bg1")
 centered = false
-region_enabled = true
-region_rect = Rect2(0, 500, 426, 384)
-modulate = Color(0.2, 0.17, 0.14, 1)
-
-[node name="Sprite2b" type="Sprite2D" parent="Background/Layer2"]
-texture = ExtResource("tileset")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(426, 500, 426, 384)
-modulate = Color(0.2, 0.17, 0.14, 1)
+modulate = Color(0.15, 0.12, 0.1, 1)
 
 [node name="Layer3" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.1, 0.1)
 
-[node name="Sprite3" type="Sprite2D" parent="Background/Layer3"]
-texture = ExtResource("tileset")
+[node name="Sprite" type="Sprite2D" parent="Background/Layer3"]
+texture = ExtResource("bg1")
 centered = false
-region_enabled = true
-region_rect = Rect2(0, 600, 426, 384)
-modulate = Color(0.25, 0.22, 0.18, 1)
-
-[node name="Sprite3b" type="Sprite2D" parent="Background/Layer3"]
-texture = ExtResource("tileset")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(426, 600, 426, 384)
-modulate = Color(0.25, 0.22, 0.18, 1)
+modulate = Color(0.2, 0.17, 0.14, 1)
 
 [node name="Layer4" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.2, 0.2)
 
-[node name="Sprite4" type="Sprite2D" parent="Background/Layer4"]
-texture = ExtResource("tileset")
+[node name="Sprite" type="Sprite2D" parent="Background/Layer4"]
+texture = ExtResource("bg1")
 centered = false
-region_enabled = true
-region_rect = Rect2(0, 700, 426, 384)
-modulate = Color(0.3, 0.26, 0.22, 1)
-
-[node name="Sprite4b" type="Sprite2D" parent="Background/Layer4"]
-texture = ExtResource("tileset")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(426, 700, 426, 384)
-modulate = Color(0.3, 0.26, 0.22, 1)
+modulate = Color(0.25, 0.22, 0.18, 1)
 
 [node name="Layer5" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.4, 0.4)
 
-[node name="Sprite5" type="Sprite2D" parent="Background/Layer5"]
-texture = ExtResource("tileset")
+[node name="Sprite" type="Sprite2D" parent="Background/Layer5"]
+texture = ExtResource("bg1")
 centered = false
-region_enabled = true
-region_rect = Rect2(0, 800, 426, 384)
-modulate = Color(0.35, 0.3, 0.26, 1)
-
-[node name="Sprite5b" type="Sprite2D" parent="Background/Layer5"]
-texture = ExtResource("tileset")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(426, 800, 426, 384)
-modulate = Color(0.35, 0.3, 0.26, 1)
+modulate = Color(0.3, 0.26, 0.22, 1)
 
 [node name="World" type="Node2D" parent="."]
 
@@ -158,11 +109,13 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="GroundVisual" type="Sprite2D" parent="World/Ground"]
-position = Vector2(0, -25)
-texture = ExtResource("tileset")
+position = Vector2(-1000, -25)
+texture = ExtResource("blockbig")
+texture_repeat = 1
+texture_filter = 0
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 2000, 400)
+region_rect = Rect2(0, 0, 2000, 200)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 shape = SubResource("RectangleShape2D_ground")
@@ -174,7 +127,9 @@ collision_mask = 0
 
 [node name="CeilingVisual" type="Sprite2D" parent="World/Ceiling"]
 position = Vector2(-1000, -75)
-texture = ExtResource("tileset")
+texture = ExtResource("blockbig")
+texture_repeat = 1
+texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2000, 100)
@@ -188,8 +143,10 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="LeftWallVisual" type="Sprite2D" parent="World/LeftWall"]
-position = Vector2(0, -250)
-texture = ExtResource("tileset")
+position = Vector2(-25, -250)
+texture = ExtResource("blockbig")
+texture_repeat = 1
+texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 50, 500)
@@ -203,8 +160,10 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="RightWallVisual" type="Sprite2D" parent="World/RightWall"]
-position = Vector2(-50, -250)
-texture = ExtResource("tileset")
+position = Vector2(-25, -250)
+texture = ExtResource("blockbig")
+texture_repeat = 1
+texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 50, 500)
@@ -219,10 +178,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_1"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 32)
+region_rect = Rect2(0, 0, 180, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_1"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -234,10 +195,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_2"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 150, 32)
+region_rect = Rect2(0, 0, 150, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_2"]
 shape = SubResource("RectangleShape2D_plat150")
@@ -249,10 +212,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_3"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 32)
+region_rect = Rect2(0, 0, 200, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_3"]
 shape = SubResource("RectangleShape2D_plat200")
@@ -264,10 +229,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_4"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 32)
+region_rect = Rect2(0, 0, 160, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_4"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -279,10 +246,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_5"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 32)
+region_rect = Rect2(0, 0, 180, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_5"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -294,10 +263,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_1"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 32)
+region_rect = Rect2(0, 0, 200, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_1"]
 shape = SubResource("RectangleShape2D_plat200")
@@ -309,10 +280,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_2"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 32)
+region_rect = Rect2(0, 0, 180, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_2"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -324,10 +297,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_3"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 32)
+region_rect = Rect2(0, 0, 160, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_3"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -339,10 +314,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_1"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 32)
+region_rect = Rect2(0, 0, 160, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_1"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -354,10 +331,12 @@ collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_2"]
 position = Vector2(0, -12)
-texture = ExtResource("tileset")
+texture = ExtResource("platlong")
+texture_repeat = 1
+texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 32)
+region_rect = Rect2(0, 0, 200, 16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_2"]
 shape = SubResource("RectangleShape2D_plat200")
