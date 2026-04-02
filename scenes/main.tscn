@@ -22,13 +22,13 @@
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-01.png" id="diamond"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(2400, 50)
+size = Vector2(2000, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ceiling"]
-size = Vector2(2400, 50)
+size = Vector2(2000, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
-size = Vector2(50, 700)
+size = Vector2(50, 500)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_plat200"]
 size = Vector2(200, 16)
@@ -43,7 +43,7 @@ size = Vector2(160, 16)
 size = Vector2(150, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_death"]
-size = Vector2(2400, 50)
+size = Vector2(2000, 50)
 
 [node name="Main" type="Node2D"]
 
@@ -145,74 +145,75 @@ region_rect = Rect2(0, 0, 426, 384)
 [node name="Camera2D" type="Camera2D" parent="World"]
 position = Vector2(0, -50)
 script = ExtResource("2_camera")
-boundary_rect = Rect2(-610, -15, 1220, 30)
+boundary_rect = Rect2(-385, -200, 770, 400)
 
 [node name="Ground" type="StaticBody2D" parent="World"]
-position = Vector2(0, 375)
+position = Vector2(0, 300)
 collision_layer = 4
 collision_mask = 0
 
 [node name="GroundVisual" type="Sprite2D" parent="World/Ground"]
-position = Vector2(-1200, -25)
+position = Vector2(0, -25)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 2400, 400)
+region_rect = Rect2(0, 0, 2000, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
 [node name="Ceiling" type="StaticBody2D" parent="World"]
-position = Vector2(0, -375)
+position = Vector2(0, -200)
 collision_layer = 4
 collision_mask = 0
 
 [node name="CeilingVisual" type="Sprite2D" parent="World/Ceiling"]
-position = Vector2(-1200, 25)
+position = Vector2(-1000, -75)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 800, 2400, 200)
+region_rect = Rect2(0, 0, 2000, 100)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ceiling"]
 shape = SubResource("RectangleShape2D_ceiling")
 
 [node name="LeftWall" type="StaticBody2D" parent="World"]
-position = Vector2(-1225, 0)
+position = Vector2(-1025, 50)
 collision_layer = 4
 collision_mask = 0
 
 [node name="LeftWallVisual" type="Sprite2D" parent="World/LeftWall"]
-position = Vector2(0, -350)
+position = Vector2(0, -250)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 400, 50, 700)
+region_rect = Rect2(0, 0, 50, 500)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall"]
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="RightWall" type="StaticBody2D" parent="World"]
-position = Vector2(1225, 0)
+position = Vector2(1025, 50)
 collision_layer = 4
 collision_mask = 0
 
 [node name="RightWallVisual" type="Sprite2D" parent="World/RightWall"]
-position = Vector2(-50, -350)
+position = Vector2(-50, -250)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 400, 50, 700)
+region_rect = Rect2(0, 0, 50, 500)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall"]
 shape = SubResource("RectangleShape2D_wall")
 
 [node name="Platform_L1_1" type="StaticBody2D" parent="World"]
-position = Vector2(-900, 275)
+position = Vector2(-700, 208)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_1"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -222,11 +223,12 @@ region_rect = Rect2(0, 0, 180, 32)
 shape = SubResource("RectangleShape2D_plat180")
 
 [node name="Platform_L1_2" type="StaticBody2D" parent="World"]
-position = Vector2(-500, 275)
+position = Vector2(-300, 208)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_2"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -236,11 +238,12 @@ region_rect = Rect2(0, 0, 150, 32)
 shape = SubResource("RectangleShape2D_plat150")
 
 [node name="Platform_L1_3" type="StaticBody2D" parent="World"]
-position = Vector2(-100, 270)
+position = Vector2(100, 208)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_3"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -250,11 +253,12 @@ region_rect = Rect2(0, 0, 200, 32)
 shape = SubResource("RectangleShape2D_plat200")
 
 [node name="Platform_L1_4" type="StaticBody2D" parent="World"]
-position = Vector2(250, 275)
+position = Vector2(450, 208)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_4"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -264,11 +268,12 @@ region_rect = Rect2(0, 0, 160, 32)
 shape = SubResource("RectangleShape2D_plat160")
 
 [node name="Platform_L1_5" type="StaticBody2D" parent="World"]
-position = Vector2(600, 270)
+position = Vector2(750, 208)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_5"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -277,26 +282,13 @@ region_rect = Rect2(0, 0, 180, 32)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_5"]
 shape = SubResource("RectangleShape2D_plat180")
 
-[node name="Platform_L1_6" type="StaticBody2D" parent="World"]
-position = Vector2(950, 275)
-collision_layer = 4
-collision_mask = 0
-
-[node name="Visual" type="Sprite2D" parent="World/Platform_L1_6"]
-texture = ExtResource("tileset")
-centered = true
-region_enabled = true
-region_rect = Rect2(0, 0, 150, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_6"]
-shape = SubResource("RectangleShape2D_plat150")
-
 [node name="Platform_L2_1" type="StaticBody2D" parent="World"]
-position = Vector2(-700, 200)
+position = Vector2(-500, 133)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_1"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -306,53 +298,42 @@ region_rect = Rect2(0, 0, 200, 32)
 shape = SubResource("RectangleShape2D_plat200")
 
 [node name="Platform_L2_2" type="StaticBody2D" parent="World"]
-position = Vector2(-200, 195)
+position = Vector2(0, 133)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_2"]
-texture = ExtResource("tileset")
-centered = true
-region_enabled = true
-region_rect = Rect2(0, 0, 150, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_2"]
-shape = SubResource("RectangleShape2D_plat150")
-
-[node name="Platform_L2_3" type="StaticBody2D" parent="World"]
-position = Vector2(300, 200)
-collision_layer = 4
-collision_mask = 0
-
-[node name="Visual" type="Sprite2D" parent="World/Platform_L2_3"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
 region_rect = Rect2(0, 0, 180, 32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_2"]
 shape = SubResource("RectangleShape2D_plat180")
 
-[node name="Platform_L2_4" type="StaticBody2D" parent="World"]
-position = Vector2(800, 195)
+[node name="Platform_L2_3" type="StaticBody2D" parent="World"]
+position = Vector2(500, 133)
 collision_layer = 4
 collision_mask = 0
 
-[node name="Visual" type="Sprite2D" parent="World/Platform_L2_4"]
+[node name="Visual" type="Sprite2D" parent="World/Platform_L2_3"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 150, 32)
+region_rect = Rect2(0, 0, 160, 32)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_4"]
-shape = SubResource("RectangleShape2D_plat150")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_3"]
+shape = SubResource("RectangleShape2D_plat160")
 
 [node name="Platform_L3_1" type="StaticBody2D" parent="World"]
-position = Vector2(-450, 125)
+position = Vector2(-250, 58)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_1"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -362,11 +343,12 @@ region_rect = Rect2(0, 0, 160, 32)
 shape = SubResource("RectangleShape2D_plat160")
 
 [node name="Platform_L3_2" type="StaticBody2D" parent="World"]
-position = Vector2(150, 125)
+position = Vector2(250, 58)
 collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_2"]
+position = Vector2(0, -12)
 texture = ExtResource("tileset")
 centered = true
 region_enabled = true
@@ -375,84 +357,59 @@ region_rect = Rect2(0, 0, 200, 32)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_2"]
 shape = SubResource("RectangleShape2D_plat200")
 
-[node name="Platform_L3_3" type="StaticBody2D" parent="World"]
-position = Vector2(700, 125)
-collision_layer = 4
-collision_mask = 0
-
-[node name="Visual" type="Sprite2D" parent="World/Platform_L3_3"]
-texture = ExtResource("tileset")
-centered = true
-region_enabled = true
-region_rect = Rect2(0, 0, 160, 32)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_3"]
-shape = SubResource("RectangleShape2D_plat160")
-
 [node name="Decorations" type="Node2D" parent="World"]
 
 [node name="Chandelier1" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-800, -310)
+position = Vector2(-600, -170)
 texture = ExtResource("light1")
 scale = Vector2(2, 2)
 
 [node name="Chandelier2" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-300, -320)
+position = Vector2(-100, -175)
 texture = ExtResource("light2")
 scale = Vector2(2, 2)
 
 [node name="Chandelier3" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(200, -310)
+position = Vector2(400, -170)
 texture = ExtResource("light3")
 scale = Vector2(2, 2)
 
 [node name="Chandelier4" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(700, -320)
+position = Vector2(800, -175)
 texture = ExtResource("light1")
 scale = Vector2(2, 2)
 
-[node name="Chandelier5" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(1050, -315)
-texture = ExtResource("light2")
-scale = Vector2(2, 2)
-
 [node name="Torch_L1" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-1190, 100)
+position = Vector2(-990, 150)
 texture = ExtResource("torchA")
 scale = Vector2(2, 2)
 
 [node name="Torch_L2" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-1190, 250)
+position = Vector2(-990, 250)
 texture = ExtResource("torchB")
 scale = Vector2(2, 2)
 
 [node name="Torch_R1" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(1190, 100)
+position = Vector2(990, 150)
 texture = ExtResource("torchC")
 scale = Vector2(2, 2)
 
 [node name="Torch_R2" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(1190, 250)
+position = Vector2(990, 250)
 texture = ExtResource("torchA")
 scale = Vector2(2, 2)
 
 [node name="Diamond1" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-600, -280)
+position = Vector2(-400, -160)
 texture = ExtResource("diamond")
 scale = Vector2(1.5, 1.5)
 
 [node name="Diamond2" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(450, -285)
-texture = ExtResource("diamond")
-scale = Vector2(1.5, 1.5)
-
-[node name="Diamond3" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(900, -275)
+position = Vector2(600, -165)
 texture = ExtResource("diamond")
 scale = Vector2(1.5, 1.5)
 
 [node name="Player" parent="World" instance=ExtResource("1_player")]
-position = Vector2(0, 334)
 
 [node name="EnemySpawner" type="Node2D" parent="World"]
 script = ExtResource("3_spawner")
@@ -461,37 +418,37 @@ max_enemies = 11
 one_time_spawn = true
 
 [node name="Spawn_G1" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-900, 336)
+position = Vector2(-700, 259)
 
 [node name="Spawn_G2" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-450, 336)
+position = Vector2(-300, 259)
 
 [node name="Spawn_G3" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(0, 336)
+position = Vector2(0, 259)
 
 [node name="Spawn_G4" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(450, 336)
+position = Vector2(300, 259)
 
 [node name="Spawn_G5" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(900, 336)
+position = Vector2(700, 259)
 
 [node name="Spawn_P1" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-900, 259)
+position = Vector2(-700, 192)
 
 [node name="Spawn_P2" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-100, 254)
+position = Vector2(100, 192)
 
 [node name="Spawn_P3" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(600, 254)
+position = Vector2(750, 192)
 
 [node name="Spawn_P4" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-700, 184)
+position = Vector2(-500, 117)
 
 [node name="Spawn_P5" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(300, 184)
+position = Vector2(500, 117)
 
 [node name="Spawn_P6" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(150, 109)
+position = Vector2(250, 42)
 
 [node name="DeathZone" type="Area2D" parent="World"]
 position = Vector2(0, 500)
