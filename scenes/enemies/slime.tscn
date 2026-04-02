@@ -67,11 +67,11 @@ script = ExtResource("1_slime")
 stats = ExtResource("3_config")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -2)
+position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_slime")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-offset = Vector2(0, -16)
+offset = Vector2(0, -24)
 texture_filter = 0
 sprite_frames = SubResource("SpriteFrames_slime")
 animation = &"Idle"
