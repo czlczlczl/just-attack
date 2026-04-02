@@ -107,8 +107,10 @@ func _perform_jump() -> void:
 			facing_direction = dir
 		velocity.x = facing_direction * jump_horizontal_speed
 	else:
-		# 待机时原地小跳
-		velocity.x = 0
+		# 待机时随机方向小跳
+		var random_dir = 1 if randi() % 2 == 0 else -1
+		facing_direction = random_dir
+		velocity.x = random_dir * jump_horizontal_speed * 0.5
 
 ## 重写 idle 状态
 func _state_idle(_delta: float) -> void:
