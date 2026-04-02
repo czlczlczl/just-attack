@@ -51,94 +51,99 @@ size = Vector2(2000, 50)
 layer = -1
 
 [node name="Layer1" type="ParallaxLayer" parent="Background"]
-motion_offset = Vector2(0, 84)
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.02, 0.02)
+
+[node name="Sprite1" type="Sprite2D" parent="Background/Layer1"]
+texture = ExtResource("tileset")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 400, 426, 384)
+modulate = Color(0.15, 0.12, 0.1, 1)
+
+[node name="Sprite1b" type="Sprite2D" parent="Background/Layer1"]
+texture = ExtResource("tileset")
+position = Vector2(426, 0)
+centered = false
+region_enabled = true
+region_rect = Rect2(426, 400, 426, 384)
+modulate = Color(0.15, 0.12, 0.1, 1)
+
+[node name="Layer2" type="ParallaxLayer" parent="Background"]
+motion_mirroring = Vector2(426, 0)
+motion_scale = Vector2(0.05, 0.05)
+
+[node name="Sprite2" type="Sprite2D" parent="Background/Layer2"]
+texture = ExtResource("tileset")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 500, 426, 384)
+modulate = Color(0.2, 0.17, 0.14, 1)
+
+[node name="Sprite2b" type="Sprite2D" parent="Background/Layer2"]
+texture = ExtResource("tileset")
+position = Vector2(426, 0)
+centered = false
+region_enabled = true
+region_rect = Rect2(426, 500, 426, 384)
+modulate = Color(0.2, 0.17, 0.14, 1)
+
+[node name="Layer3" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.1, 0.1)
 
-[node name="Sprite1" type="Sprite2D" parent="Background/Layer1"]
-texture = ExtResource("bg1")
+[node name="Sprite3" type="Sprite2D" parent="Background/Layer3"]
+texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(0, 600, 426, 384)
+modulate = Color(0.25, 0.22, 0.18, 1)
 
-[node name="Sprite1b" type="Sprite2D" parent="Background/Layer1"]
-texture = ExtResource("bg1")
+[node name="Sprite3b" type="Sprite2D" parent="Background/Layer3"]
+texture = ExtResource("tileset")
 position = Vector2(426, 0)
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(426, 600, 426, 384)
+modulate = Color(0.25, 0.22, 0.18, 1)
 
-[node name="Layer2" type="ParallaxLayer" parent="Background"]
-motion_offset = Vector2(0, 84)
+[node name="Layer4" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.2, 0.2)
 
-[node name="Sprite2" type="Sprite2D" parent="Background/Layer2"]
-texture = ExtResource("bg2")
+[node name="Sprite4" type="Sprite2D" parent="Background/Layer4"]
+texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(0, 700, 426, 384)
+modulate = Color(0.3, 0.26, 0.22, 1)
 
-[node name="Sprite2b" type="Sprite2D" parent="Background/Layer2"]
-texture = ExtResource("bg2")
+[node name="Sprite4b" type="Sprite2D" parent="Background/Layer4"]
+texture = ExtResource("tileset")
 position = Vector2(426, 0)
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(426, 700, 426, 384)
+modulate = Color(0.3, 0.26, 0.22, 1)
 
-[node name="Layer3" type="ParallaxLayer" parent="Background"]
-motion_offset = Vector2(0, 84)
+[node name="Layer5" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.4, 0.4)
 
-[node name="Sprite3" type="Sprite2D" parent="Background/Layer3"]
-texture = ExtResource("bg3")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
-
-[node name="Sprite3b" type="Sprite2D" parent="Background/Layer3"]
-texture = ExtResource("bg3")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
-
-[node name="Layer4" type="ParallaxLayer" parent="Background"]
-motion_offset = Vector2(0, 84)
-motion_mirroring = Vector2(426, 0)
-motion_scale = Vector2(0.6, 0.6)
-
-[node name="Sprite4" type="Sprite2D" parent="Background/Layer4"]
-texture = ExtResource("bg4")
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
-
-[node name="Sprite4b" type="Sprite2D" parent="Background/Layer4"]
-texture = ExtResource("bg4")
-position = Vector2(426, 0)
-centered = false
-region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
-
-[node name="Layer5" type="ParallaxLayer" parent="Background"]
-motion_offset = Vector2(0, 84)
-motion_mirroring = Vector2(426, 0)
-motion_scale = Vector2(0.8, 0.8)
-
 [node name="Sprite5" type="Sprite2D" parent="Background/Layer5"]
-texture = ExtResource("bg5")
+texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(0, 800, 426, 384)
+modulate = Color(0.35, 0.3, 0.26, 1)
 
 [node name="Sprite5b" type="Sprite2D" parent="Background/Layer5"]
-texture = ExtResource("bg5")
+texture = ExtResource("tileset")
 position = Vector2(426, 0)
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 426, 384)
+region_rect = Rect2(426, 800, 426, 384)
+modulate = Color(0.35, 0.3, 0.26, 1)
 
 [node name="World" type="Node2D" parent="."]
 
