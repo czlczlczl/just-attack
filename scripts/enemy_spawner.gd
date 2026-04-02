@@ -14,6 +14,9 @@ extends Node2D
 ## 生成间隔
 @export var spawn_interval: float = 2.0
 
+## 是否一次性生成所有敌人
+@export var one_time_spawn: bool = false
+
 ## 玩家引用
 var player: Node2D = null
 
@@ -22,6 +25,9 @@ var current_enemies: Array[Node] = []
 
 ## 生成计时器
 var spawn_timer: float = 0.0
+
+## 是否已完成一次性生成
+var _initial_spawn_done: bool = false
 
 func _exit_tree() -> void:
 	# 清理所有敌人
@@ -39,7 +45,16 @@ func _ready() -> void:
 	if GameManager.player:
 		player = GameManager.player
 
+	# 一次性生成模式
+	if one_time_spawn:
+		_spawn_all_once()
+		return
+
 func _process(delta: float) -> void:
+	# 一次性生成模式下不持续生成
+	if one_time_spawn:
+		return
+
 	if player == null or not player.is_inside_tree():
 		return
 
@@ -49,6 +64,28 @@ func _process(delta: float) -> void:
 	if spawn_timer >= spawn_interval:
 		spawn_timer = 0.0
 		try_spawn_enemy()
+
+## 一次性在所有生成点生成敌人
+func _spawn_all_once() -> void:
+	if _initial_spawn_done:
+		return
+	_initial_spawn_done = true
+
+	if spawn_points.size() == 0 or enemy_scenes.size() == 0:
+		return
+
+	for spawn_point in spawn_points:
+		var scene_index = randi() % enemy_scenes.size()
+		var enemy = enemy_scenes[scene_index].instantiate()
+		enemy.global_position = spawn_point.global_position
+
+		if enemy.has_signal("enemy_died"):
+			enemy.enemy_died.connect(_on_enemy_died)
+
+		get_parent().add_child(enemy)
+		current_enemies.append(enemy)
+
+	AudioManager.play_spawn_sound()
 
 ## 尝试生成怪物
 func try_spawn_enemy() -> void:

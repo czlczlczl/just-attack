@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bs2tn5bydjdxm"]
+[gd_scene load_steps=22 format=3 uid="uid://bs2tn5bydjdxm"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://t3du4uam21j6" path="res://scripts/camera_controller.gd" id="2_camera"]
@@ -13,12 +13,37 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer4.png" id="bg4"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer5.png" id="bg5"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/castle-tileset.png" id="tileset"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-01.png" id="light1"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-02.png" id="light2"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-03.png" id="light3"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-01.png" id="torchA"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-01.png" id="torchB"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-01.png" id="torchC"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-01.png" id="diamond"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
-size = Vector2(2000, 50)
+size = Vector2(2400, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ceiling"]
+size = Vector2(2400, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wall"]
+size = Vector2(50, 700)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat200"]
+size = Vector2(200, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat180"]
+size = Vector2(180, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat160"]
+size = Vector2(160, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat150"]
+size = Vector2(150, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_death"]
-size = Vector2(2000, 50)
+size = Vector2(2400, 50)
 
 [node name="Main" type="Node2D"]
 
@@ -120,33 +145,353 @@ region_rect = Rect2(0, 0, 426, 384)
 [node name="Camera2D" type="Camera2D" parent="World"]
 position = Vector2(0, -50)
 script = ExtResource("2_camera")
+boundary_rect = Rect2(-610, -15, 1220, 30)
 
 [node name="Ground" type="StaticBody2D" parent="World"]
-position = Vector2(0, 300)
+position = Vector2(0, 375)
 collision_layer = 4
 collision_mask = 0
 
 [node name="GroundVisual" type="Sprite2D" parent="World/Ground"]
-position = Vector2(0, -25)
+position = Vector2(-1200, -25)
 texture = ExtResource("tileset")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 2000, 400)
+region_rect = Rect2(0, 0, 2400, 400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 shape = SubResource("RectangleShape2D_ground")
 
+[node name="Ceiling" type="StaticBody2D" parent="World"]
+position = Vector2(0, -375)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CeilingVisual" type="Sprite2D" parent="World/Ceiling"]
+position = Vector2(-1200, 25)
+texture = ExtResource("tileset")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 800, 2400, 200)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ceiling"]
+shape = SubResource("RectangleShape2D_ceiling")
+
+[node name="LeftWall" type="StaticBody2D" parent="World"]
+position = Vector2(-1225, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="LeftWallVisual" type="Sprite2D" parent="World/LeftWall"]
+position = Vector2(0, -350)
+texture = ExtResource("tileset")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 400, 50, 700)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="World"]
+position = Vector2(1225, 0)
+collision_layer = 4
+collision_mask = 0
+
+[node name="RightWallVisual" type="Sprite2D" parent="World/RightWall"]
+position = Vector2(-50, -350)
+texture = ExtResource("tileset")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 400, 50, 700)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall"]
+shape = SubResource("RectangleShape2D_wall")
+
+[node name="Platform_L1_1" type="StaticBody2D" parent="World"]
+position = Vector2(-900, 275)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_1"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 180, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_1"]
+shape = SubResource("RectangleShape2D_plat180")
+
+[node name="Platform_L1_2" type="StaticBody2D" parent="World"]
+position = Vector2(-500, 275)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_2"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 150, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_2"]
+shape = SubResource("RectangleShape2D_plat150")
+
+[node name="Platform_L1_3" type="StaticBody2D" parent="World"]
+position = Vector2(-100, 270)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_3"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 200, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_3"]
+shape = SubResource("RectangleShape2D_plat200")
+
+[node name="Platform_L1_4" type="StaticBody2D" parent="World"]
+position = Vector2(250, 275)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_4"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_4"]
+shape = SubResource("RectangleShape2D_plat160")
+
+[node name="Platform_L1_5" type="StaticBody2D" parent="World"]
+position = Vector2(600, 270)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_5"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 180, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_5"]
+shape = SubResource("RectangleShape2D_plat180")
+
+[node name="Platform_L1_6" type="StaticBody2D" parent="World"]
+position = Vector2(950, 275)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L1_6"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 150, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_6"]
+shape = SubResource("RectangleShape2D_plat150")
+
+[node name="Platform_L2_1" type="StaticBody2D" parent="World"]
+position = Vector2(-700, 200)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L2_1"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 200, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_1"]
+shape = SubResource("RectangleShape2D_plat200")
+
+[node name="Platform_L2_2" type="StaticBody2D" parent="World"]
+position = Vector2(-200, 195)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L2_2"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 150, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_2"]
+shape = SubResource("RectangleShape2D_plat150")
+
+[node name="Platform_L2_3" type="StaticBody2D" parent="World"]
+position = Vector2(300, 200)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L2_3"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 180, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_3"]
+shape = SubResource("RectangleShape2D_plat180")
+
+[node name="Platform_L2_4" type="StaticBody2D" parent="World"]
+position = Vector2(800, 195)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L2_4"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 150, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_4"]
+shape = SubResource("RectangleShape2D_plat150")
+
+[node name="Platform_L3_1" type="StaticBody2D" parent="World"]
+position = Vector2(-450, 125)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L3_1"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_1"]
+shape = SubResource("RectangleShape2D_plat160")
+
+[node name="Platform_L3_2" type="StaticBody2D" parent="World"]
+position = Vector2(150, 125)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L3_2"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 200, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_2"]
+shape = SubResource("RectangleShape2D_plat200")
+
+[node name="Platform_L3_3" type="StaticBody2D" parent="World"]
+position = Vector2(700, 125)
+collision_layer = 4
+collision_mask = 0
+
+[node name="Visual" type="Sprite2D" parent="World/Platform_L3_3"]
+texture = ExtResource("tileset")
+centered = true
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_3"]
+shape = SubResource("RectangleShape2D_plat160")
+
+[node name="Decorations" type="Node2D" parent="World"]
+
+[node name="Chandelier1" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-800, -310)
+texture = ExtResource("light1")
+scale = Vector2(2, 2)
+
+[node name="Chandelier2" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-300, -320)
+texture = ExtResource("light2")
+scale = Vector2(2, 2)
+
+[node name="Chandelier3" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(200, -310)
+texture = ExtResource("light3")
+scale = Vector2(2, 2)
+
+[node name="Chandelier4" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(700, -320)
+texture = ExtResource("light1")
+scale = Vector2(2, 2)
+
+[node name="Chandelier5" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(1050, -315)
+texture = ExtResource("light2")
+scale = Vector2(2, 2)
+
+[node name="Torch_L1" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-1190, 100)
+texture = ExtResource("torchA")
+scale = Vector2(2, 2)
+
+[node name="Torch_L2" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-1190, 250)
+texture = ExtResource("torchB")
+scale = Vector2(2, 2)
+
+[node name="Torch_R1" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(1190, 100)
+texture = ExtResource("torchC")
+scale = Vector2(2, 2)
+
+[node name="Torch_R2" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(1190, 250)
+texture = ExtResource("torchA")
+scale = Vector2(2, 2)
+
+[node name="Diamond1" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-600, -280)
+texture = ExtResource("diamond")
+scale = Vector2(1.5, 1.5)
+
+[node name="Diamond2" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(450, -285)
+texture = ExtResource("diamond")
+scale = Vector2(1.5, 1.5)
+
+[node name="Diamond3" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(900, -275)
+texture = ExtResource("diamond")
+scale = Vector2(1.5, 1.5)
+
 [node name="Player" parent="World" instance=ExtResource("1_player")]
+position = Vector2(0, 334)
 
 [node name="EnemySpawner" type="Node2D" parent="World"]
 script = ExtResource("3_spawner")
 enemy_scenes = Array[PackedScene]([ExtResource("7_monster")])
+max_enemies = 11
+one_time_spawn = true
 
-[node name="SpawnPoint1" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(-200, 275)
+[node name="Spawn_G1" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(-900, 336)
 
-[node name="SpawnPoint2" type="Marker2D" parent="World/EnemySpawner"]
-position = Vector2(200, 275)
+[node name="Spawn_G2" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(-450, 336)
+
+[node name="Spawn_G3" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(0, 336)
+
+[node name="Spawn_G4" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(450, 336)
+
+[node name="Spawn_G5" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(900, 336)
+
+[node name="Spawn_P1" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(-900, 259)
+
+[node name="Spawn_P2" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(-100, 254)
+
+[node name="Spawn_P3" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(600, 254)
+
+[node name="Spawn_P4" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(-700, 184)
+
+[node name="Spawn_P5" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(300, 184)
+
+[node name="Spawn_P6" type="Marker2D" parent="World/EnemySpawner"]
+position = Vector2(150, 109)
 
 [node name="DeathZone" type="Area2D" parent="World"]
 position = Vector2(0, 500)
