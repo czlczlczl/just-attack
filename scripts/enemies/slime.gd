@@ -89,6 +89,9 @@ func _physics_process(delta: float) -> void:
 	# 应用移动
 	move_and_slide()
 
+	# 检测是否站在敌人头顶，如果是则弹开
+	_check_stuck_on_enemy()
+
 	# 检测是否卡在玩家头顶，如果是则弹开
 	_check_stuck_on_player()
 
@@ -190,6 +193,25 @@ func _update_animation() -> void:
 	else:
 		if enemy_sprite.animation != &"Idle":
 			enemy_sprite.play("Idle")
+
+## 检测是否站在敌人头顶，如果是则弹开
+func _check_stuck_on_enemy() -> void:
+	if not is_on_floor():
+		return
+
+	for i in get_slide_collision_count():
+		var collision = get_slide_collision(i)
+		var collider = collision.get_collider()
+		if collider is CharacterBody2D and collider != player and collision.get_normal().y < -0.5:
+			var push_dir = sign(global_position.x - collider.global_position.x)
+			if push_dir == 0:
+				push_dir = 1
+			facing_direction = push_dir
+			velocity.y = -jump_force * 0.4
+			velocity.x = push_dir * jump_horizontal_speed * 0.5
+			is_jumping = true
+			jump_timer = jump_interval
+			return
 
 ## 检测是否卡在玩家头顶，如果是则弹开
 func _check_stuck_on_player() -> void:
