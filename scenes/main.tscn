@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://bs2tn5bydjdxm"]
+[gd_scene load_steps=42 format=3 uid="uid://bs2tn5bydjdxm"]
 
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="1_player"]
 [ext_resource type="Script" uid="uid://t3du4uam21j6" path="res://scripts/camera_controller.gd" id="2_camera"]
@@ -8,19 +8,31 @@
 [ext_resource type="Script" uid="uid://u1b40u52v4k4" path="res://scripts/controls_overlay.gd" id="6_controls"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/slime.tscn" id="7_monster"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer1.png" id="bg1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer2.png" id="bg2"]
 [ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer3a.png" id="bg3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer4.png" id="bg4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/background/castle/bg-layer5.png" id="bg5"]
 [ext_resource type="Texture2D" path="res://assets/sprites/tiles/block-big.png" id="blockbig"]
-[ext_resource type="Texture2D" path="res://assets/sprites/tiles/platform-long.png" id="platlong"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-01.png" id="light1"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-02.png" id="light2"]
 [ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-03.png" id="light3"]
-[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-01.png" id="torchA"]
-[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-01.png" id="torchB"]
-[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-01.png" id="torchC"]
-[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-01.png" id="diamond"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/light-04.png" id="light4"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-01.png" id="torchA1"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-02.png" id="torchA2"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-03.png" id="torchA3"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-A-04.png" id="torchA4"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-01.png" id="torchB1"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-02.png" id="torchB2"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-03.png" id="torchB3"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-B-04.png" id="torchB4"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-01.png" id="torchC1"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-02.png" id="torchC2"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-03.png" id="torchC3"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/torch-C-04.png" id="torchC4"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-01.png" id="diamond1"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-02.png" id="diamond2"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-03.png" id="diamond3"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-04.png" id="diamond4"]
+[ext_resource type="Texture2D" path="res://assets/downloads/castle_extracted/Anim/diamond-05.png" id="diamond5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/skulls.png" id="skulls"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tiles/face-block.png" id="faceblock"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ground"]
 size = Vector2(2000, 50)
@@ -46,6 +58,109 @@ size = Vector2(150, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_death"]
 size = Vector2(2000, 50)
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_torchA"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("torchA1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchA2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchA3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchA4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_torchB"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("torchB1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchB2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchB3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchB4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_torchC"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("torchC1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchC2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchC3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("torchC4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_light"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("light1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("light2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("light3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("light4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 3.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_diamond"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("diamond1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("diamond2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("diamond3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("diamond4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("diamond5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 4.0
+}]
+
 [node name="Main" type="Node2D"]
 
 [node name="Background" type="ParallaxBackground" parent="."]
@@ -58,7 +173,7 @@ motion_scale = Vector2(0.02, 0.02)
 [node name="Sprite" type="Sprite2D" parent="Background/Layer1"]
 texture = ExtResource("bg1")
 centered = false
-modulate = Color(0.1, 0.08, 0.07, 1)
+modulate = Color(0.15, 0.10, 0.12, 1)
 
 [node name="Layer2" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
@@ -67,16 +182,16 @@ motion_scale = Vector2(0.05, 0.05)
 [node name="Sprite" type="Sprite2D" parent="Background/Layer2"]
 texture = ExtResource("bg1")
 centered = false
-modulate = Color(0.15, 0.12, 0.1, 1)
+modulate = Color(0.20, 0.14, 0.18, 1)
 
 [node name="Layer3" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
 motion_scale = Vector2(0.1, 0.1)
 
 [node name="Sprite" type="Sprite2D" parent="Background/Layer3"]
-texture = ExtResource("bg1")
+texture = ExtResource("bg3")
 centered = false
-modulate = Color(0.2, 0.17, 0.14, 1)
+modulate = Color(0.25, 0.18, 0.22, 1)
 
 [node name="Layer4" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
@@ -85,7 +200,7 @@ motion_scale = Vector2(0.2, 0.2)
 [node name="Sprite" type="Sprite2D" parent="Background/Layer4"]
 texture = ExtResource("bg1")
 centered = false
-modulate = Color(0.25, 0.22, 0.18, 1)
+modulate = Color(0.30, 0.24, 0.28, 1)
 
 [node name="Layer5" type="ParallaxLayer" parent="Background"]
 motion_mirroring = Vector2(426, 0)
@@ -94,7 +209,7 @@ motion_scale = Vector2(0.4, 0.4)
 [node name="Sprite" type="Sprite2D" parent="Background/Layer5"]
 texture = ExtResource("bg1")
 centered = false
-modulate = Color(0.3, 0.26, 0.22, 1)
+modulate = Color(0.35, 0.30, 0.33, 1)
 
 [node name="World" type="Node2D" parent="."]
 
@@ -116,6 +231,7 @@ texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2000, 200)
+modulate = Color(0.6, 0.45, 0.3, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ground"]
 shape = SubResource("RectangleShape2D_ground")
@@ -133,6 +249,7 @@ texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 2000, 100)
+modulate = Color(0.35, 0.30, 0.35, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Ceiling"]
 shape = SubResource("RectangleShape2D_ceiling")
@@ -150,6 +267,7 @@ texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 50, 500)
+modulate = Color(0.30, 0.25, 0.28, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/LeftWall"]
 shape = SubResource("RectangleShape2D_wall")
@@ -167,6 +285,7 @@ texture_filter = 0
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 50, 500)
+modulate = Color(0.30, 0.25, 0.28, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/RightWall"]
 shape = SubResource("RectangleShape2D_wall")
@@ -177,13 +296,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_1"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 16)
+region_rect = Rect2(0, 0, 180, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_1"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -194,13 +314,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_2"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 150, 16)
+region_rect = Rect2(0, 0, 150, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_2"]
 shape = SubResource("RectangleShape2D_plat150")
@@ -211,13 +332,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_3"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 16)
+region_rect = Rect2(0, 0, 200, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_3"]
 shape = SubResource("RectangleShape2D_plat200")
@@ -228,13 +350,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_4"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 16)
+region_rect = Rect2(0, 0, 160, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_4"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -245,13 +368,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L1_5"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 16)
+region_rect = Rect2(0, 0, 180, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L1_5"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -262,13 +386,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_1"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 16)
+region_rect = Rect2(0, 0, 200, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_1"]
 shape = SubResource("RectangleShape2D_plat200")
@@ -279,13 +404,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_2"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 180, 16)
+region_rect = Rect2(0, 0, 180, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_2"]
 shape = SubResource("RectangleShape2D_plat180")
@@ -296,13 +422,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L2_3"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 16)
+region_rect = Rect2(0, 0, 160, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L2_3"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -313,13 +440,14 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_1"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 160, 16)
+region_rect = Rect2(0, 0, 160, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_1"]
 shape = SubResource("RectangleShape2D_plat160")
@@ -330,67 +458,110 @@ collision_layer = 4
 collision_mask = 0
 
 [node name="Visual" type="Sprite2D" parent="World/Platform_L3_2"]
-position = Vector2(0, -12)
-texture = ExtResource("platlong")
+position = Vector2(0, -20)
+texture = ExtResource("blockbig")
 texture_repeat = 1
 texture_filter = 0
 centered = true
 region_enabled = true
-region_rect = Rect2(0, 0, 200, 16)
+region_rect = Rect2(0, 0, 200, 32)
+modulate = Color(0.55, 0.42, 0.30, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="World/Platform_L3_2"]
 shape = SubResource("RectangleShape2D_plat200")
 
 [node name="Decorations" type="Node2D" parent="World"]
 
-[node name="Chandelier1" type="Sprite2D" parent="World/Decorations"]
+[node name="Chandelier1" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(-600, -170)
-texture = ExtResource("light1")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_light")
+autoplay = "default"
 
-[node name="Chandelier2" type="Sprite2D" parent="World/Decorations"]
+[node name="Chandelier2" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(-100, -175)
-texture = ExtResource("light2")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_light")
+autoplay = "default"
 
-[node name="Chandelier3" type="Sprite2D" parent="World/Decorations"]
+[node name="Chandelier3" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(400, -170)
-texture = ExtResource("light3")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_light")
+autoplay = "default"
 
-[node name="Chandelier4" type="Sprite2D" parent="World/Decorations"]
+[node name="Chandelier4" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(800, -175)
-texture = ExtResource("light1")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_light")
+autoplay = "default"
 
-[node name="Torch_L1" type="Sprite2D" parent="World/Decorations"]
+[node name="Torch_L1" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(-990, 150)
-texture = ExtResource("torchA")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_torchA")
+autoplay = "default"
 
-[node name="Torch_L2" type="Sprite2D" parent="World/Decorations"]
+[node name="Torch_L2" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(-990, 250)
-texture = ExtResource("torchB")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_torchB")
+autoplay = "default"
 
-[node name="Torch_R1" type="Sprite2D" parent="World/Decorations"]
+[node name="Torch_R1" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(990, 150)
-texture = ExtResource("torchC")
 scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_torchC")
+autoplay = "default"
 
-[node name="Torch_R2" type="Sprite2D" parent="World/Decorations"]
+[node name="Torch_R2" type="AnimatedSprite2D" parent="World/Decorations"]
 position = Vector2(990, 250)
-texture = ExtResource("torchA")
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_torchA")
+autoplay = "default"
+
+[node name="Torch_Mid_L" type="AnimatedSprite2D" parent="World/Decorations"]
+position = Vector2(-500, 100)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_torchB")
+autoplay = "default"
+
+[node name="Torch_Mid_R" type="AnimatedSprite2D" parent="World/Decorations"]
+position = Vector2(500, 100)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_torchC")
+autoplay = "default"
+
+[node name="Diamond1" type="AnimatedSprite2D" parent="World/Decorations"]
+position = Vector2(-400, -160)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_diamond")
+autoplay = "default"
+
+[node name="Diamond2" type="AnimatedSprite2D" parent="World/Decorations"]
+position = Vector2(600, -165)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_diamond")
+autoplay = "default"
+
+[node name="Skulls1" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-200, 275)
+texture = ExtResource("skulls")
 scale = Vector2(2, 2)
 
-[node name="Diamond1" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(-400, -160)
-texture = ExtResource("diamond")
+[node name="Skulls2" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(600, 275)
+texture = ExtResource("skulls")
+scale = Vector2(2, 2)
+
+[node name="FaceBlock_L" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(-990, 50)
+texture = ExtResource("faceblock")
 scale = Vector2(1.5, 1.5)
 
-[node name="Diamond2" type="Sprite2D" parent="World/Decorations"]
-position = Vector2(600, -165)
-texture = ExtResource("diamond")
+[node name="FaceBlock_R" type="Sprite2D" parent="World/Decorations"]
+position = Vector2(990, 50)
+texture = ExtResource("faceblock")
 scale = Vector2(1.5, 1.5)
 
 [node name="Player" parent="World" instance=ExtResource("1_player")]
