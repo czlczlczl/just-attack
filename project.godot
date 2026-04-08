@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/game_manager.gd"
 InputHandler="*res://scripts/input_handler.gd"
 AudioManager="*res://scripts/audio_manager.gd"
+PlatformGraph="*res://scripts/platform_navigation/platform_graph.gd"
 
 [display]
 

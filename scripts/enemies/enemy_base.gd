@@ -79,6 +79,9 @@ var local_patrol_range: float = 150.0
 ## 视觉节点引用
 var enemy_sprite: AnimatedSprite2D = null
 
+## 路径执行器 (子类可选使用)
+var path_follower: RefCounted = null
+
 ## 闪白计时器
 var flash_timer: float = 0.0
 
